@@ -1,54 +1,16 @@
+# LET'S BUILD A COMPILER!
+## By Jack W. Crenshaw, Ph.D.
+## 27 August 1989
 
+# Part XIII: PROCEDURES
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                     LET'S BUILD A COMPILER!
-
-                                By
-
-                     Jack W. Crenshaw, Ph.D.
-
-                          27 August 1989
-
-
-                      Part XIII: PROCEDURES
-
-
-*****************************************************************
-*                                                               *
-*                        COPYRIGHT NOTICE                       *
-*                                                               *
-*   Copyright (C) 1989 Jack W. Crenshaw. All rights reserved.   *
-*                                                               *
-*****************************************************************
-
-
-INTRODUCTION
+<div class="notice">
+	<h2>Copyright Notice</h2>
+    
+	<p>Copyright © 1989 Jack W. Crenshaw. All rights reserved.</p>
+</div>
+    
+## INTRODUCTION
 
 At last we get to the good part!
 
@@ -86,7 +48,7 @@ mainstream  of  things.    In   this   installment,   I'll  cover
 procedures.  Next time, we'll talk about the basic data types.
 
 
-ONE LAST DIGRESSION
+## ONE LAST DIGRESSION
 
 This has  been an extraordinarily difficult installment for me to
 write.  The reason has nothing to do with the subject  itself ...
@@ -150,7 +112,7 @@ After all this time, you don't need more buildup  than  that,  so
 let's waste no more time and dive right in.
 
 
-THE BASICS
+## THE BASICS
 
 All modern  CPU's provide direct support for procedure calls, and
 the  68000  is no exception.  For the 68000, the call  is  a  BSR
@@ -169,7 +131,7 @@ three issues, that of parameter passing will occupy  most  of our
 attention, simply because there are so many options available.
 
 
-A BASIS FOR EXPERIMENTS
+## A BASIS FOR EXPERIMENTS
 
 As always, we will need some software to  serve  as  a  basis for
 what  we are doing.  We don't need the full TINY compiler, but we
@@ -193,334 +155,334 @@ shown the whole thing here, just to make sure we're  all starting
 from the same point:
 
 
-{--------------------------------------------------------------}
-program Calls;
+    {--------------------------------------------------------------}
+    program Calls;
 
-{--------------------------------------------------------------}
-{ Constant Declarations }
+    {--------------------------------------------------------------}
+    { Constant Declarations }
 
-const TAB = ^I;
-      CR  = ^M;
-      LF  = ^J;
+    const TAB = ^I;
+          CR  = ^M;
+          LF  = ^J;
 
-{--------------------------------------------------------------}
-{ Variable Declarations }
+    {--------------------------------------------------------------}
+    { Variable Declarations }
 
-var Look: char;              { Lookahead Character }
+    var Look: char;              { Lookahead Character }
 
-var ST: Array['A'..'Z'] of char;
+    var ST: Array['A'..'Z'] of char;
 
 
-{--------------------------------------------------------------}
-{ Read New Character From Input Stream }
+    {--------------------------------------------------------------}
+    { Read New Character From Input Stream }
 
-procedure GetChar;
-begin
-   Read(Look);
-end;
+    procedure GetChar;
+    begin
+       Read(Look);
+    end;
 
-{--------------------------------------------------------------}
-{ Report an Error }
+    {--------------------------------------------------------------}
+    { Report an Error }
 
-procedure Error(s: string);
-begin
-   WriteLn;
-   WriteLn(^G, 'Error: ', s, '.');
-end;
+    procedure Error(s: string);
+    begin
+       WriteLn;
+       WriteLn(^G, 'Error: ', s, '.');
+    end;
 
 
-{--------------------------------------------------------------}
-{ Report Error and Halt }
+    {--------------------------------------------------------------}
+    { Report Error and Halt }
 
-procedure Abort(s: string);
-begin
-   Error(s);
-   Halt;
-end;
+    procedure Abort(s: string);
+    begin
+       Error(s);
+       Halt;
+    end;
 
 
-{--------------------------------------------------------------}
-{ Report What Was Expected }
+    {--------------------------------------------------------------}
+    { Report What Was Expected }
 
-procedure Expected(s: string);
-begin
-   Abort(s + ' Expected');
-end;
+    procedure Expected(s: string);
+    begin
+       Abort(s + ' Expected');
+    end;
 
 
-{--------------------------------------------------------------}
-{ Report an Undefined Identifier }
+    {--------------------------------------------------------------}
+    { Report an Undefined Identifier }
 
-procedure Undefined(n: string);
-begin
-   Abort('Undefined Identifier ' + n);
-end;
+    procedure Undefined(n: string);
+    begin
+       Abort('Undefined Identifier ' + n);
+    end;
 
 
-{--------------------------------------------------------------}
-{ Report an Duplicate Identifier }
+    {--------------------------------------------------------------}
+    { Report an Duplicate Identifier }
 
-procedure Duplicate(n: string);
-begin
-     Abort('Duplicate Identifier ' + n);
-end;
+    procedure Duplicate(n: string);
+    begin
+         Abort('Duplicate Identifier ' + n);
+    end;
 
 
-{--------------------------------------------------------------}
-{ Get Type of Symbol }
+    {--------------------------------------------------------------}
+    { Get Type of Symbol }
 
-function TypeOf(n: char): char;
-begin
-     TypeOf := ST[n];
-end;
+    function TypeOf(n: char): char;
+    begin
+         TypeOf := ST[n];
+    end;
 
 
-{--------------------------------------------------------------}
-{ Look for Symbol in Table }
+    {--------------------------------------------------------------}
+    { Look for Symbol in Table }
 
-function InTable(n: char): Boolean;
-begin
-   InTable := ST[n] <> ' ';
-end;
+    function InTable(n: char): Boolean;
+    begin
+       InTable := ST[n] <> ' ';
+    end;
 
 
-{--------------------------------------------------------------}
-{ Add a New Symbol to Table }
+    {--------------------------------------------------------------}
+    { Add a New Symbol to Table }
 
-procedure AddEntry(Name, T: char);
-begin
-     if Intable(Name) then Duplicate(Name);
-     ST[Name] := T;
-end;
+    procedure AddEntry(Name, T: char);
+    begin
+         if Intable(Name) then Duplicate(Name);
+         ST[Name] := T;
+    end;
 
 
-{--------------------------------------------------------------}
-{ Check an Entry to Make Sure It's a Variable }
+    {--------------------------------------------------------------}
+    { Check an Entry to Make Sure It's a Variable }
 
-procedure CheckVar(Name: char);
-begin
-     if not InTable(Name) then Undefined(Name);
-     if  TypeOf(Name)  <>  'v'  then    Abort(Name  +  ' is not a
-variable');
-end;
+    procedure CheckVar(Name: char);
+    begin
+         if not InTable(Name) then Undefined(Name);
+         if  TypeOf(Name)  <>  'v'  then    Abort(Name  +  ' is not a
+    variable');
+    end;
 
 
-{--------------------------------------------------------------}
-{ Recognize an Alpha Character }
+    {--------------------------------------------------------------}
+    { Recognize an Alpha Character }
 
-function IsAlpha(c: char): boolean;
-begin
-   IsAlpha := upcase(c) in ['A'..'Z'];
-end;
+    function IsAlpha(c: char): boolean;
+    begin
+       IsAlpha := upcase(c) in ['A'..'Z'];
+    end;
 
 
-{--------------------------------------------------------------}
-{ Recognize a Decimal Digit }
+    {--------------------------------------------------------------}
+    { Recognize a Decimal Digit }
 
-function IsDigit(c: char): boolean;
-begin
-   IsDigit := c in ['0'..'9'];
-end;
+    function IsDigit(c: char): boolean;
+    begin
+       IsDigit := c in ['0'..'9'];
+    end;
 
 
-{--------------------------------------------------------------}
-{ Recognize an AlphaNumeric Character }
+    {--------------------------------------------------------------}
+    { Recognize an AlphaNumeric Character }
 
-function IsAlNum(c: char): boolean;
-begin
-   IsAlNum := IsAlpha(c) or IsDigit(c);
-end;
+    function IsAlNum(c: char): boolean;
+    begin
+       IsAlNum := IsAlpha(c) or IsDigit(c);
+    end;
 
 
-{--------------------------------------------------------------}
-{ Recognize an Addop }
+    {--------------------------------------------------------------}
+    { Recognize an Addop }
 
-function IsAddop(c: char): boolean;
-begin
-   IsAddop := c in ['+', '-'];
-end;
+    function IsAddop(c: char): boolean;
+    begin
+       IsAddop := c in ['+', '-'];
+    end;
 
 
-{--------------------------------------------------------------}
-{ Recognize a Mulop }
+    {--------------------------------------------------------------}
+    { Recognize a Mulop }
 
-function IsMulop(c: char): boolean;
-begin
-   IsMulop := c in ['*', '/'];
-end;
+    function IsMulop(c: char): boolean;
+    begin
+       IsMulop := c in ['*', '/'];
+    end;
 
 
-{--------------------------------------------------------------}
-{ Recognize a Boolean Orop }
+    {--------------------------------------------------------------}
+    { Recognize a Boolean Orop }
 
-function IsOrop(c: char): boolean;
-begin
-   IsOrop := c in ['|', '~'];
-end;
+    function IsOrop(c: char): boolean;
+    begin
+       IsOrop := c in ['|', '~'];
+    end;
 
 
-{--------------------------------------------------------------}
-{ Recognize a Relop }
+    {--------------------------------------------------------------}
+    { Recognize a Relop }
 
-function IsRelop(c: char): boolean;
-begin
-   IsRelop := c in ['=', '#', '<', '>'];
-end;
+    function IsRelop(c: char): boolean;
+    begin
+       IsRelop := c in ['=', '#', '<', '>'];
+    end;
 
 
-{--------------------------------------------------------------}
-{ Recognize White Space }
+    {--------------------------------------------------------------}
+    { Recognize White Space }
 
-function IsWhite(c: char): boolean;
-begin
-   IsWhite := c in [' ', TAB];
-end;
+    function IsWhite(c: char): boolean;
+    begin
+       IsWhite := c in [' ', TAB];
+    end;
 
 
-{--------------------------------------------------------------}
-{ Skip Over Leading White Space }
+    {--------------------------------------------------------------}
+    { Skip Over Leading White Space }
 
-procedure SkipWhite;
-begin
-   while IsWhite(Look) do
-      GetChar;
-end;
+    procedure SkipWhite;
+    begin
+       while IsWhite(Look) do
+          GetChar;
+    end;
 
 
-{--------------------------------------------------------------}
-{ Skip Over an End-of-Line }
+    {--------------------------------------------------------------}
+    { Skip Over an End-of-Line }
 
-procedure Fin;
-begin
-   if Look = CR then begin
-      GetChar;
-      if Look = LF then
+    procedure Fin;
+    begin
+       if Look = CR then begin
+          GetChar;
+          if Look = LF then
+             GetChar;
+       end;
+    end;
+
+
+    {--------------------------------------------------------------}
+    { Match a Specific Input Character }
+
+    procedure Match(x: char);
+    begin
+       if Look = x then GetChar
+         else Expected('''' + x + '''');
+         SkipWhite;
+    end;
+
+
+    {--------------------------------------------------------------}
+    { Get an Identifier }
+
+    function GetName: char;
+    begin
+       if not IsAlpha(Look) then Expected('Name');
+       GetName := UpCase(Look);
          GetChar;
-   end;
-end;
+         SkipWhite;
+    end;
 
 
-{--------------------------------------------------------------}
-{ Match a Specific Input Character }
+    {--------------------------------------------------------------}
+    { Get a Number }
 
-procedure Match(x: char);
-begin
-   if Look = x then GetChar
-     else Expected('''' + x + '''');
-     SkipWhite;
-end;
-
-
-{--------------------------------------------------------------}
-{ Get an Identifier }
-
-function GetName: char;
-begin
-   if not IsAlpha(Look) then Expected('Name');
-   GetName := UpCase(Look);
-     GetChar;
-     SkipWhite;
-end;
+    function GetNum: char;
+    begin
+       if not IsDigit(Look) then Expected('Integer');
+       GetNum := Look;
+         GetChar;
+         SkipWhite;
+    end;
 
 
-{--------------------------------------------------------------}
-{ Get a Number }
+    {--------------------------------------------------------------}
+    { Output a String with Tab }
 
-function GetNum: char;
-begin
-   if not IsDigit(Look) then Expected('Integer');
-   GetNum := Look;
-     GetChar;
-     SkipWhite;
-end;
+    procedure Emit(s: string);
+    begin
+       Write(TAB, s);
+    end;
 
 
-{--------------------------------------------------------------}
-{ Output a String with Tab }
+    {--------------------------------------------------------------}
+    { Output a String with Tab and CRLF }
 
-procedure Emit(s: string);
-begin
-   Write(TAB, s);
-end;
-
-
-{--------------------------------------------------------------}
-{ Output a String with Tab and CRLF }
-
-procedure EmitLn(s: string);
-begin
-   Emit(s);
-   WriteLn;
-end;
+    procedure EmitLn(s: string);
+    begin
+       Emit(s);
+       WriteLn;
+    end;
 
 
-{--------------------------------------------------------------}
-{ Post a Label To Output }
+    {--------------------------------------------------------------}
+    { Post a Label To Output }
 
-procedure PostLabel(L: string);
-begin
-   WriteLn(L, ':');
-end;
-
-
-{--------------------------------------------------------------}
-{ Load a Variable to the Primary Register }
-
-procedure LoadVar(Name: char);
-begin
-     CheckVar(Name);
-     EmitLn('MOVE ' + Name + '(PC),D0');
-end;
+    procedure PostLabel(L: string);
+    begin
+       WriteLn(L, ':');
+    end;
 
 
-{--------------------------------------------------------------}
-{ Store the Primary Register }
+    {--------------------------------------------------------------}
+    { Load a Variable to the Primary Register }
 
-procedure StoreVar(Name: char);
-begin
-     CheckVar(Name);
-     EmitLn('LEA ' + Name + '(PC),A0');
-   EmitLn('MOVE D0,(A0)')
-end;
-
-
-{--------------------------------------------------------------}
-{ Initialize }
-
-procedure Init;
-var i: char;
-begin
-     GetChar;
-     SkipWhite;
-     for i := 'A' to 'Z' do
-          ST[i] := ' ';
-end;
+    procedure LoadVar(Name: char);
+    begin
+         CheckVar(Name);
+         EmitLn('MOVE ' + Name + '(PC),D0');
+    end;
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate an Expression }
-{ Vestigial Version }
+    {--------------------------------------------------------------}
+    { Store the Primary Register }
 
-procedure Expression;
-begin
-     LoadVar(GetName);
-end;
-
-
-{--------------------------------------------------------------}
-{ Parse and Translate an Assignment Statement }
-
-procedure Assignment;
-var Name: char;
-begin
-     Name := GetName;
-     Match('=');
-     Expression;
-     StoreVar(Name);
-end;
+    procedure StoreVar(Name: char);
+    begin
+         CheckVar(Name);
+         EmitLn('LEA ' + Name + '(PC),A0');
+       EmitLn('MOVE D0,(A0)')
+    end;
 
 
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Initialize }
+
+    procedure Init;
+    var i: char;
+    begin
+         GetChar;
+         SkipWhite;
+         for i := 'A' to 'Z' do
+              ST[i] := ' ';
+    end;
+
+
+    {--------------------------------------------------------------}
+    { Parse and Translate an Expression }
+    { Vestigial Version }
+
+    procedure Expression;
+    begin
+         LoadVar(GetName);
+    end;
+
+
+    {--------------------------------------------------------------}
+    { Parse and Translate an Assignment Statement }
+
+    procedure Assignment;
+    var Name: char;
+    begin
+         Name := GetName;
+         Match('=');
+         Expression;
+         StoreVar(Name);
+    end;
+
+
+    {--------------------------------------------------------------}
 
                              
 
@@ -529,76 +491,76 @@ end;
 
 
 
-{ Parse and Translate a Block of Statements }
+    { Parse and Translate a Block of Statements }
 
-procedure DoBlock;
-begin
-     while not(Look in ['e']) do begin
-          Assignment;
-          Fin;
-   end;
-end;
-
-
-{--------------------------------------------------------------}
-{ Parse and Translate a Begin-Block }
-
-procedure BeginBlock;
-begin
-     Match('b');
-     Fin;
-     DoBlock;
-     Match('e');
-     Fin;
-end;
+    procedure DoBlock;
+    begin
+         while not(Look in ['e']) do begin
+              Assignment;
+              Fin;
+       end;
+    end;
 
 
-{--------------------------------------------------------------}
-{ Allocate Storage for a Variable }
+    {--------------------------------------------------------------}
+    { Parse and Translate a Begin-Block }
 
-procedure Alloc(N: char);
-begin
-     if InTable(N) then Duplicate(N);
-   ST[N] := 'v';
-     WriteLn(N, ':', TAB, 'DC 0');
-end;
-
-
-{--------------------------------------------------------------}
-{ Parse and Translate a Data Declaration }
-
-procedure Decl;
-var Name: char;
-begin
-   Match('v');
-     Alloc(GetName);
-end;
+    procedure BeginBlock;
+    begin
+         Match('b');
+         Fin;
+         DoBlock;
+         Match('e');
+         Fin;
+    end;
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate Global Declarations }
+    {--------------------------------------------------------------}
+    { Allocate Storage for a Variable }
 
-procedure TopDecls;
-begin
-     while Look <> 'b' do begin
-      case Look of
-        'v': Decl;
-      else Abort('Unrecognized Keyword ' + Look);
-          end;
-          Fin;
-     end;
-end;
+    procedure Alloc(N: char);
+    begin
+         if InTable(N) then Duplicate(N);
+       ST[N] := 'v';
+         WriteLn(N, ':', TAB, 'DC 0');
+    end;
 
 
-{--------------------------------------------------------------}
-{ Main Program }
+    {--------------------------------------------------------------}
+    { Parse and Translate a Data Declaration }
 
-begin
-     Init;
-     TopDecls;
-     BeginBlock;
-end.
-{--------------------------------------------------------------}
+    procedure Decl;
+    var Name: char;
+    begin
+       Match('v');
+         Alloc(GetName);
+    end;
+
+
+    {--------------------------------------------------------------}
+    { Parse and Translate Global Declarations }
+
+    procedure TopDecls;
+    begin
+         while Look <> 'b' do begin
+          case Look of
+            'v': Decl;
+          else Abort('Unrecognized Keyword ' + Look);
+              end;
+              Fin;
+         end;
+    end;
+
+
+    {--------------------------------------------------------------}
+    { Main Program }
+
+    begin
+         Init;
+         TopDecls;
+         BeginBlock;
+    end.
+    {--------------------------------------------------------------}
 
 
 Note  that we DO have a symbol table, and there is logic to check
@@ -625,7 +587,7 @@ As usual, you should also make some deliberate errors, and verify
 that the program catches them correctly.
 
 
-DECLARING A PROCEDURE
+## DECLARING A PROCEDURE
 
 If you're satisfied that our little program works, then it's time
 to  deal  with  the  procedures.  Since we haven't  talked  about
@@ -691,22 +653,22 @@ the beginning of the procedure, and an RTS at the end.
 
 Here's the required code:
 
-{--------------------------------------------------------------}
-{ Parse and Translate a Procedure Declaration }
+    {--------------------------------------------------------------}
+    { Parse and Translate a Procedure Declaration }
 
-procedure DoProc;
-var N: char;
-begin
-     Match('p');
-     N := GetName;
-     Fin;
-     if InTable(N) then Duplicate(N);
-     ST[N] := 'p';
-     PostLabel(N);
-     BeginBlock;
-     Return;
-end;
-{--------------------------------------------------------------}
+    procedure DoProc;
+    var N: char;
+    begin
+         Match('p');
+         N := GetName;
+         Fin;
+         if InTable(N) then Duplicate(N);
+         ST[N] := 'p';
+         PostLabel(N);
+         BeginBlock;
+         Return;
+    end;
+    {--------------------------------------------------------------}
 
 
 Note that I've added a new code generation routine, Return, which
@@ -766,30 +728,30 @@ Before going on to the next step, it's also worth noting that the
 the label and END statement.  Let's fix that little oversight:
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate a Main Program }
+    {--------------------------------------------------------------}
+    { Parse and Translate a Main Program }
 
-procedure DoMain;
-begin
-     Match('b');
-     Fin;
-     Prolog;
-     DoBlock;
-     Epilog;
-end;
-{--------------------------------------------------------------}
-.
-.
-.
-{--------------------------------------------------------------}
-{ Main Program }
+    procedure DoMain;
+    begin
+         Match('b');
+         Fin;
+         Prolog;
+         DoBlock;
+         Epilog;
+    end;
+    {--------------------------------------------------------------}
+    .
+    .
+    .
+    {--------------------------------------------------------------}
+    { Main Program }
 
-begin
-     Init;
-     TopDecls;
-     DoMain;
-end.
-{--------------------------------------------------------------}
+    begin
+         Init;
+         TopDecls;
+         DoMain;
+    end.
+    {--------------------------------------------------------------}
 
 
 Note  that  DoProc  and DoMain are not quite symmetrical.  DoProc
@@ -850,49 +812,49 @@ The code  also  looks  much  better,  at  least in the sense that
 DoMain and DoProc look more alike:
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate a Main Program }
+    {--------------------------------------------------------------}
+    { Parse and Translate a Main Program }
 
-procedure DoMain;
-var N: char;
-begin
-     Match('P');
-     N := GetName;
-     Fin;
-     if InTable(N) then Duplicate(N);
-     Prolog;
-     BeginBlock;
-end;
-{--------------------------------------------------------------}
-.
-.
-.
-{--------------------------------------------------------------}
-{ Parse and Translate Global Declarations }
+    procedure DoMain;
+    var N: char;
+    begin
+         Match('P');
+         N := GetName;
+         Fin;
+         if InTable(N) then Duplicate(N);
+         Prolog;
+         BeginBlock;
+    end;
+    {--------------------------------------------------------------}
+    .
+    .
+    .
+    {--------------------------------------------------------------}
+    { Parse and Translate Global Declarations }
 
-procedure TopDecls;
-begin
-     while Look <> '.' do begin
-      case Look of
-            'v': Decl;
-            'p': DoProc;
-            'P': DoMain;
-          else Abort('Unrecognized Keyword ' + Look);
-          end;
-          Fin;
-     end;
-end;
+    procedure TopDecls;
+    begin
+         while Look <> '.' do begin
+          case Look of
+                'v': Decl;
+                'p': DoProc;
+                'P': DoMain;
+              else Abort('Unrecognized Keyword ' + Look);
+              end;
+              Fin;
+         end;
+    end;
 
 
-{--------------------------------------------------------------}
-{ Main Program }
+    {--------------------------------------------------------------}
+    { Main Program }
 
-begin
-     Init;
-     TopDecls;
-     Epilog;
-end.
-{--------------------------------------------------------------}
+    begin
+         Init;
+         TopDecls;
+         Epilog;
+    end.
+    {--------------------------------------------------------------}
 
 
 Since the declaration of the main program is now within  the loop
@@ -921,7 +883,7 @@ could  at least flag an error if someone  tries  to  include  two
 mains.
 
 
-CALLING THE PROCEDURE
+## CALLING THE PROCEDURE
 
 If you're satisfied that  things  are  working, let's address the
 second half of the equation ... the call.
@@ -952,45 +914,45 @@ parsing rule can be easily handled as a special case.
 Here's how to do it:
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate an Assignment Statement }
+    {--------------------------------------------------------------}
+    { Parse and Translate an Assignment Statement }
 
-procedure Assignment(Name: char);
-begin
-     Match('=');
-     Expression;
-     StoreVar(Name);
-end;
-
-
-{--------------------------------------------------------------}
-{ Decide if a Statement is an Assignment or Procedure Call }
-
-procedure AssignOrProc;
-var Name: char;
-begin
-     Name := GetName;
-     case TypeOf(Name) of
-          ' ': Undefined(Name);
-          'v': Assignment(Name);
-          'p': CallProc(Name);
-          else Abort('Identifier ' + Name +
-                                   ' Cannot Be Used Here');
-     end;
-end;
+    procedure Assignment(Name: char);
+    begin
+         Match('=');
+         Expression;
+         StoreVar(Name);
+    end;
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate a Block of Statements }
+    {--------------------------------------------------------------}
+    { Decide if a Statement is an Assignment or Procedure Call }
 
-procedure DoBlock;
-begin
-     while not(Look in ['e']) do begin
-          AssignOrProc;
-          Fin;
-   end;
-end;
-{--------------------------------------------------------------}
+    procedure AssignOrProc;
+    var Name: char;
+    begin
+         Name := GetName;
+         case TypeOf(Name) of
+              ' ': Undefined(Name);
+              'v': Assignment(Name);
+              'p': CallProc(Name);
+              else Abort('Identifier ' + Name +
+                                       ' Cannot Be Used Here');
+         end;
+    end;
+
+
+    {--------------------------------------------------------------}
+    { Parse and Translate a Block of Statements }
+
+    procedure DoBlock;
+    begin
+         while not(Look in ['e']) do begin
+              AssignOrProc;
+              Fin;
+       end;
+    end;
+    {--------------------------------------------------------------}
 
 
 As you can see, procedure Block now calls AssignOrProc instead of
@@ -1002,14 +964,14 @@ modify Assignment to match.   Procedure CallProc is a simple code
 generation routine:
 
 
-{--------------------------------------------------------------}
-{ Call a Procedure }
+    {--------------------------------------------------------------}
+    { Call a Procedure }
 
-procedure CallProc(N: char);
-begin
-     EmitLn('BSR ' + N);
-end;
-{--------------------------------------------------------------}
+    procedure CallProc(N: char);
+    begin
+         EmitLn('BSR ' + N);
+    end;
+    {--------------------------------------------------------------}
 
 
 Well,  at  this  point  we  have  a  compiler  that can deal with
@@ -1108,101 +1070,101 @@ the declaration has very  much  the  same  form we've seen before
 when dealing with VAR-lists:
 
 
-{--------------------------------------------------------------}
-{ Process the Formal Parameter List of a Procedure }
+    {--------------------------------------------------------------}
+    { Process the Formal Parameter List of a Procedure }
 
-procedure FormalList;
-begin
-     Match('(');
-     if Look <> ')' then begin
-          FormalParam;
-          while Look = ',' do begin
-               Match(',');
-               FormalParam;
-          end;
-     end;
-     Match(')');
-end;
-{--------------------------------------------------------------}
+    procedure FormalList;
+    begin
+         Match('(');
+         if Look <> ')' then begin
+              FormalParam;
+              while Look = ',' do begin
+                   Match(',');
+                   FormalParam;
+              end;
+         end;
+         Match(')');
+    end;
+    {--------------------------------------------------------------}
 
 
 Procedure DoProc needs to have a line added to call FormalList:
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate a Procedure Declaration }
+    {--------------------------------------------------------------}
+    { Parse and Translate a Procedure Declaration }
 
-procedure DoProc;
-var N: char;
-begin
-     Match('p');
-     N := GetName;
-     FormalList;
-     Fin;
-     if InTable(N) then Duplicate(N);
-     ST[N] := 'p';
-     PostLabel(N);
-     BeginBlock;
-     Return;
-end;
-{--------------------------------------------------------------}
+    procedure DoProc;
+    var N: char;
+    begin
+         Match('p');
+         N := GetName;
+         FormalList;
+         Fin;
+         if InTable(N) then Duplicate(N);
+         ST[N] := 'p';
+         PostLabel(N);
+         BeginBlock;
+         Return;
+    end;
+    {--------------------------------------------------------------}
 
 
 For now, the code for FormalParam is just a dummy one that simply
 skips the parameter name:
 
 
-{--------------------------------------------------------------}
-{ Process a Formal Parameter }
+    {--------------------------------------------------------------}
+    { Process a Formal Parameter }
 
-procedure FormalParam;
-var Name:  char;
-begin
-     Name := GetName;
-end;
-{--------------------------------------------------------------}
+    procedure FormalParam;
+    var Name:  char;
+    begin
+         Name := GetName;
+    end;
+    {--------------------------------------------------------------}
 
 
 For  the actual procedure call, there must  be  similar  code  to
 process the actual parameter list:
 
 
-{--------------------------------------------------------------}
-{ Process an Actual Parameter }
+    {--------------------------------------------------------------}
+    { Process an Actual Parameter }
+    
+    procedure Param;
+    var Name:  char;
+    begin
+         Name := GetName;
+    end;
+    
+    
+    {--------------------------------------------------------------}
+    { Process the Parameter List for a Procedure  Call }
+    
+    procedure ParamList;
+    begin
+         Match('(');
+         if Look <> ')' then begin
+              Param;
+              while Look = ',' do begin
+                   Match(',');
+                   Param;
+              end;
+         end;
+         Match(')');
+    end;
 
-procedure Param;
-var Name:  char;
-begin
-     Name := GetName;
-end;
 
-
-{--------------------------------------------------------------}
-{ Process the Parameter List for a Procedure  Call }
-
-procedure ParamList;
-begin
-     Match('(');
-     if Look <> ')' then begin
-          Param;
-          while Look = ',' do begin
-               Match(',');
-               Param;
-          end;
-     end;
-     Match(')');
-end;
-
-
-{--------------------------------------------------------------}
-{ Process a Procedure Call }
-
-procedure CallProc(Name: char);
-begin
-     ParamList;
-     Call(Name);
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Process a Procedure Call }
+    
+    procedure CallProc(Name: char);
+    begin
+         ParamList;
+         Call(Name);
+    end;
+    {--------------------------------------------------------------}
 
 
 Note  here  that  CallProc  is  no  longer  just  a  simple  code
@@ -1406,7 +1368,7 @@ since a pointer is a different type and we haven't  studied types
 yet!
 
 
-PASS-BY-VALUE
+## PASS-BY-VALUE
 
 Let's just try some simple-minded  things and see where they lead
 us.    Let's begin with the pass-by-value  case.    Consider  the
@@ -1492,57 +1454,57 @@ we process, so we'll need to initialize that table anew  for each
 procedure.  Here's the initializer:
 
 
-{--------------------------------------------------------------}
-{ Initialize Parameter Table to Null }
-
-procedure ClearParams;
-var i: char;
-begin
-     for i := 'A' to 'Z' do
-          Params[i] := 0;
-     NumParams := 0;
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Initialize Parameter Table to Null }
+    
+    procedure ClearParams;
+    var i: char;
+    begin
+         for i := 'A' to 'Z' do
+              Params[i] := 0;
+         NumParams := 0;
+    end;
+    {--------------------------------------------------------------}
 
 
 We'll put a call to this procedure in Init, and  also  at the end
 of DoProc:
 
 
-{--------------------------------------------------------------}
-{ Initialize }
-
-procedure Init;
-var i: char;
-begin
-     GetChar;
-     SkipWhite;
-     for i := 'A' to 'Z' do
-          ST[i] := ' ';
-     ClearParams;
-end;
-{--------------------------------------------------------------}
-.
-.
-.
-{--------------------------------------------------------------}
-{ Parse and Translate a Procedure Declaration }
-
-procedure DoProc;
-var N: char;
-begin
-     Match('p');
-     N := GetName;
-     FormalList;
-     Fin;
-     if InTable(N) then Duplicate(N);
-     ST[N] := 'p';
-     PostLabel(N);
-     BeginBlock;
-     Return;
-     ClearParams;
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Initialize }
+    
+    procedure Init;
+    var i: char;
+    begin
+         GetChar;
+         SkipWhite;
+         for i := 'A' to 'Z' do
+              ST[i] := ' ';
+         ClearParams;
+    end;
+    {--------------------------------------------------------------}
+    .
+    .
+    .
+    {--------------------------------------------------------------}
+    { Parse and Translate a Procedure Declaration }
+    
+    procedure DoProc;
+    var N: char;
+    begin
+         Match('p');
+         N := GetName;
+         FormalList;
+         Fin;
+         if InTable(N) then Duplicate(N);
+         ST[N] := 'p';
+         PostLabel(N);
+         BeginBlock;
+         Return;
+         ClearParams;
+    end;
+    {--------------------------------------------------------------}
 
 
 Note that the call  within  DoProc ensures that the table will be
@@ -1554,71 +1516,71 @@ next few functions are  essentially  copies  of  InTable, TypeOf,
 etc.:
 
 
-{--------------------------------------------------------------}
-{ Find the Parameter Number }
-
-function ParamNumber(N: char): integer;
-begin
-     ParamNumber := Params[N];
-end;
-
-
-{--------------------------------------------------------------}
-{ See if an Identifier is a Parameter }
-
-function IsParam(N: char): boolean;
-begin
-     IsParam := Params[N] <> 0;
-end;
-
-
-{--------------------------------------------------------------}
-{ Add a New Parameter to Table }
-
-procedure AddParam(Name: char);
-begin
-     if IsParam(Name) then Duplicate(Name);
-     Inc(NumParams);
-     Params[Name] := NumParams;
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Find the Parameter Number }
+    
+    function ParamNumber(N: char): integer;
+    begin
+         ParamNumber := Params[N];
+    end;
+    
+    
+    {--------------------------------------------------------------}
+    { See if an Identifier is a Parameter }
+    
+    function IsParam(N: char): boolean;
+    begin
+         IsParam := Params[N] <> 0;
+    end;
+    
+    
+    {--------------------------------------------------------------}
+    { Add a New Parameter to Table }
+    
+    procedure AddParam(Name: char);
+    begin
+         if IsParam(Name) then Duplicate(Name);
+         Inc(NumParams);
+         Params[Name] := NumParams;
+    end;
+    {--------------------------------------------------------------}
 
 
 Finally, we need some code generation routines:
 
 
-{--------------------------------------------------------------}
-{ Load a Parameter to the Primary Register }
+    {--------------------------------------------------------------}
+    { Load a Parameter to the Primary Register }
+    
+    procedure LoadParam(N: integer);
+    var Offset: integer;
+    begin
+         Offset := 4 + 2 * (NumParams - N);
+         Emit('MOVE ');
+         WriteLn(Offset, '(SP),D0');
+    end;
+    
+    
+    {--------------------------------------------------------------}
+    { Store a Parameter from the Primary Register }
+    
+    procedure StoreParam(N: integer);
+    var Offset: integer;
+    begin
+         Offset := 4 + 2 * (NumParams - N);
+         Emit('MOVE D0,');
+         WriteLn(Offset, '(SP)');
+    end;
+    
 
-procedure LoadParam(N: integer);
-var Offset: integer;
-begin
-     Offset := 4 + 2 * (NumParams - N);
-     Emit('MOVE ');
-     WriteLn(Offset, '(SP),D0');
-end;
-
-
-{--------------------------------------------------------------}
-{ Store a Parameter from the Primary Register }
-
-procedure StoreParam(N: integer);
-var Offset: integer;
-begin
-     Offset := 4 + 2 * (NumParams - N);
-     Emit('MOVE D0,');
-     WriteLn(Offset, '(SP)');
-end;
-
-
-{--------------------------------------------------------------}
-{ Push The Primary Register to the Stack }
-
-procedure Push;
-begin
-     EmitLn('MOVE D0,-(SP)');
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Push The Primary Register to the Stack }
+    
+    procedure Push;
+    begin
+         EmitLn('MOVE D0,-(SP)');
+    end;
+    {--------------------------------------------------------------}
 
 
 ( The last routine is one we've seen  before,  but  it  wasn't in
@@ -1632,14 +1594,14 @@ Let's begin by processing a formal parameter.  All we have  to do
 is to add each parameter to the parameter symbol table:
 
 
-{--------------------------------------------------------------}
-{ Process a Formal Parameter }
-
-procedure FormalParam;
-begin
-     AddParam(GetName);
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Process a Formal Parameter }
+    
+    procedure FormalParam;
+    begin
+         AddParam(GetName);
+    end;
+    {--------------------------------------------------------------}
 
 
 Now, what about dealing with a formal parameter  when  it appears
@@ -1648,17 +1610,17 @@ must first determine that it IS a formal parameter.  To  do this,
 I've written a modified version of TypeOf:
 
 
-{--------------------------------------------------------------}
-{ Get Type of Symbol }
-
-function TypeOf(n: char): char;
-begin
-     if IsParam(n) then
-          TypeOf := 'f'
-     else
-          TypeOf := ST[n];
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Get Type of Symbol }
+    
+    function TypeOf(n: char): char;
+    begin
+         if IsParam(n) then
+              TypeOf := 'f'
+         else
+              TypeOf := ST[n];
+    end;
+    {--------------------------------------------------------------}
 
 
 (Note that, since  TypeOf  now  calls  IsParam, it may need to be
@@ -1667,56 +1629,55 @@ relocated in your source.)
 We also must modify AssignOrProc to deal with this new type:
 
 
-{--------------------------------------------------------------}
-{ Decide if a Statement is an Assignment or Procedure Call }
-
-procedure AssignOrProc;
-var Name: char;
-begin
-     Name := GetName;
-     case TypeOf(Name) of
-          ' ': Undefined(Name);
-          'v', 'f': Assignment(Name);
-          'p': CallProc(Name);
-          else  Abort('Identifier ' + Name +  '  Cannot  Be  Used
-Here');
-     end;
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Decide if a Statement is an Assignment or Procedure Call }
+    
+    procedure AssignOrProc;
+    var Name: char;
+    begin
+         Name := GetName;
+         case TypeOf(Name) of
+              ' ': Undefined(Name);
+              'v', 'f': Assignment(Name);
+              'p': CallProc(Name);
+              else  Abort('Identifier ' + Name +  ' Cannot Be Used Here');
+         end;
+    end;
+    {--------------------------------------------------------------}
 
 
 Finally,  the  code  to process an assignment  statement  and  an
 expression must be extended:
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate an Expression }
-{ Vestigial Version }
-
-procedure Expression;
-var Name: char;
-begin
-     Name := GetName;
-     if IsParam(Name) then
-          LoadParam(ParamNumber(Name))
-     else
-          LoadVar(Name);
-end;
-
-
-{--------------------------------------------------------------}
-{ Parse and Translate an Assignment Statement }
-
-procedure Assignment(Name: char);
-begin
-     Match('=');
-     Expression;
-     if IsParam(Name) then
-          StoreParam(ParamNumber(Name))
-     else
-          StoreVar(Name);
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Parse and Translate an Expression }
+    { Vestigial Version }
+    
+    procedure Expression;
+    var Name: char;
+    begin
+         Name := GetName;
+         if IsParam(Name) then
+              LoadParam(ParamNumber(Name))
+         else
+              LoadVar(Name);
+    end;
+    
+    
+    {--------------------------------------------------------------}
+    { Parse and Translate an Assignment Statement }
+    
+    procedure Assignment(Name: char);
+    begin
+         Match('=');
+         Expression;
+         if IsParam(Name) then
+              StoreParam(ParamNumber(Name))
+         else
+              StoreVar(Name);
+    end;
+    {--------------------------------------------------------------}
 
 
 As you can see, these procedures will treat  every  variable name
@@ -1730,15 +1691,15 @@ The rest is easy.  We need only add the  semantics  to the actual
 procedure call, which we can do with one new line of code:
 
 
-{--------------------------------------------------------------}
-{ Process an Actual Parameter }
-
-procedure Param;
-begin
-     Expression;
-     Push;
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Process an Actual Parameter }
+    
+    procedure Param;
+    begin
+         Expression;
+         Push;
+    end;
+    {--------------------------------------------------------------}
 
 
 That's  it.  Add these changes to your program and give it a try.
@@ -1752,7 +1713,7 @@ things like read  or  write  formal  parameters  or  use  them in
 complicated expressions.
 
 
-WHAT'S WRONG?
+## WHAT'S WRONG?
 
 At this point, you might be thinking: Surely there's more to this
 than a few pushes and  pops.    There  must  be  more  to passing
@@ -1787,60 +1748,60 @@ items  it  pushed.    To  make  things  easy, I've  modified  the
 procedure  ParamList to be a function  instead  of  a  procedure,
 returning the number of bytes pushed:
 
-
-{--------------------------------------------------------------}
-{ Process the Parameter List for a Procedure  Call }
-
-function ParamList: integer;
-var N: integer;
-begin
-     N := 0;
-     Match('(');
-     if Look <> ')' then begin
-          Param;
-          inc(N);
-          while Look = ',' do begin
-               Match(',');
-               Param;
-               inc(N);
-          end;
-     end;
-     Match(')');
-     ParamList := 2 * N;
-end;
-{--------------------------------------------------------------}
+    
+    {--------------------------------------------------------------}
+    { Process the Parameter List for a Procedure  Call }
+    
+    function ParamList: integer;
+    var N: integer;
+    begin
+         N := 0;
+         Match('(');
+         if Look <> ')' then begin
+              Param;
+              inc(N);
+              while Look = ',' do begin
+                   Match(',');
+                   Param;
+                   inc(N);
+              end;
+         end;
+         Match(')');
+         ParamList := 2 * N;
+    end;
+    {--------------------------------------------------------------}
 
 
 Procedure CallProc then uses this to clean up the stack:
 
-
-{--------------------------------------------------------------}
-{ Process a Procedure Call }
-
-procedure CallProc(Name: char);
-var N: integer;
-begin
-     N := ParamList;
-     Call(Name);
-     CleanStack(N);
-end;
-{--------------------------------------------------------------}
+    
+    {--------------------------------------------------------------}
+    { Process a Procedure Call }
+    
+    procedure CallProc(Name: char);
+    var N: integer;
+    begin
+         N := ParamList;
+         Call(Name);
+         CleanStack(N);
+    end;
+    {--------------------------------------------------------------}
 
 
 Here I've created yet another code generation procedure:
 
 
-{--------------------------------------------------------------}
-{ Adjust the Stack Pointer Upwards by N Bytes }
-
-procedure CleanStack(N: integer);
-begin
-     if N > 0 then begin
-          Emit('ADD #');
-          WriteLn(N, ',SP');
-     end;
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Adjust the Stack Pointer Upwards by N Bytes }
+    
+    procedure CleanStack(N: integer);
+    begin
+         if N > 0 then begin
+              Emit('ADD #');
+              WriteLn(N, ',SP');
+         end;
+    end;
+    {--------------------------------------------------------------}
 
 
 OK, if you'll add this code to your compiler, I think you'll find
@@ -1923,77 +1884,77 @@ more than one line, I've created new procedures to deal  with it,
 paralleling the Prolog and Epilog procedures called by DoMain:
 
 
-{--------------------------------------------------------------}
-{ Write the Prolog for a Procedure }
-
-procedure ProcProlog(N: char);
-begin
-     PostLabel(N);
-     EmitLn('LINK A6,#0');
-end;
-
-
-{--------------------------------------------------------------}
-{ Write the Epilog for a Procedure }
-
-procedure ProcEpilog;
-begin
-     EmitLn('UNLK A6');
-     EmitLn('RTS');
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Write the Prolog for a Procedure }
+    
+    procedure ProcProlog(N: char);
+    begin
+         PostLabel(N);
+         EmitLn('LINK A6,#0');
+    end;
+    
+    
+    {--------------------------------------------------------------}
+    { Write the Epilog for a Procedure }
+    
+    procedure ProcEpilog;
+    begin
+         EmitLn('UNLK A6');
+         EmitLn('RTS');
+    end;
+    {--------------------------------------------------------------}
 
 
 Procedure DoProc now just calls these:
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate a Procedure Declaration }
-
-procedure DoProc;
-var N: char;
-begin
-     Match('p');
-     N := GetName;
-     FormalList;
-     Fin;
-     if InTable(N) then Duplicate(N);
-     ST[N] := 'p';
-     ProcProlog(N);
-     BeginBlock;
-     ProcEpilog;
-     ClearParams;
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Parse and Translate a Procedure Declaration }
+    
+    procedure DoProc;
+    var N: char;
+    begin
+         Match('p');
+         N := GetName;
+         FormalList;
+         Fin;
+         if InTable(N) then Duplicate(N);
+         ST[N] := 'p';
+         ProcProlog(N);
+         BeginBlock;
+         ProcEpilog;
+         ClearParams;
+    end;
+    {--------------------------------------------------------------}
 
 
 Finally, we need to  change  the  references  to SP in procedures
 LoadParam and StoreParam:
 
 
-{--------------------------------------------------------------}
-{ Load a Parameter to the Primary Register }
-
-procedure LoadParam(N: integer);
-var Offset: integer;
-begin
-     Offset := 8 + 2 * (NumParams - N);
-     Emit('MOVE ');
-     WriteLn(Offset, '(A6),D0');
-end;
-
-
-{--------------------------------------------------------------}
-{ Store a Parameter from the Primary Register }
-
-procedure StoreParam(N: integer);
-var Offset: integer;
-begin
-     Offset := 8 + 2 * (NumParams - N);
-     Emit('MOVE D0,');
-     WriteLn(Offset, '(A6)');
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Load a Parameter to the Primary Register }
+    
+    procedure LoadParam(N: integer);
+    var Offset: integer;
+    begin
+         Offset := 8 + 2 * (NumParams - N);
+         Emit('MOVE ');
+         WriteLn(Offset, '(A6),D0');
+    end;
+    
+    
+    {--------------------------------------------------------------}
+    { Store a Parameter from the Primary Register }
+    
+    procedure StoreParam(N: integer);
+    var Offset: integer;
+    begin
+         Offset := 8 + 2 * (NumParams - N);
+         Emit('MOVE D0,');
+         WriteLn(Offset, '(A6)');
+    end;
+    {--------------------------------------------------------------}
 
 
 (Note that the Offset computation  changes to allow for the extra
@@ -2008,9 +1969,7 @@ allowed, this code is just what we need.
 
 There is still just one little small problem remaining:
 
-
-     WE HAVE NO WAY TO RETURN RESULTS TO THE CALLER!
-
+> We have no way to return results to the caller!
 
 But  that,  of course, is not a  limitation  of  the  code  we're
 generating, but  one  inherent  in  the  call-by-value  protocol.
@@ -2021,7 +1980,7 @@ doing what it's supposed to.   To  get over this last problem, we
 need to look at the alternative protocol.
 
 
-CALL-BY-REFERENCE
+## CALL-BY-REFERENCE
 
 This  one is easy, now that we have  the  mechanisms  already  in
 place.    We  only  have  to  make  a few  changes  to  the  code
@@ -2055,14 +2014,14 @@ to be translated to:
 That's a simple matter of a slight change to Param:
 
 
-{--------------------------------------------------------------}
-{ Process an Actual Parameter }
-
-procedure Param;
-begin
-     EmitLn('PEA ' + GetName + '(PC)');
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Process an Actual Parameter }
+    
+    procedure Param;
+    begin
+         EmitLn('PEA ' + GetName + '(PC)');
+    end;
+    {--------------------------------------------------------------}
 
 
 (Note that with pass-by-reference, we can't  have  expressions in
@@ -2089,31 +2048,31 @@ All  of  this  can  be   handled  by  changes  to  LoadParam  and
 StoreParam:
 
 
-{--------------------------------------------------------------}
-{ Load a Parameter to the Primary Register }
-
-procedure LoadParam(N: integer);
-var Offset: integer;
-begin
-     Offset := 8 + 4 * (NumParams - N);
-     Emit('MOVE.L ');
-     WriteLn(Offset, '(A6),A0');
-     EmitLn('MOVE (A0),D0');
-end;
-
-
-{--------------------------------------------------------------}
-{ Store a Parameter from the Primary Register }
-
-procedure StoreParam(N: integer);
-var Offset: integer;
-begin
-     Offset := 8 + 4 * (NumParams - N);
-     Emit('MOVE.L ');
-     WriteLn(Offset, '(A6),A0');
-     EmitLn('MOVE D0,(A0)');
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Load a Parameter to the Primary Register }
+    
+    procedure LoadParam(N: integer);
+    var Offset: integer;
+    begin
+         Offset := 8 + 4 * (NumParams - N);
+         Emit('MOVE.L ');
+         WriteLn(Offset, '(A6),A0');
+         EmitLn('MOVE (A0),D0');
+    end;
+    
+    
+    {--------------------------------------------------------------}
+    { Store a Parameter from the Primary Register }
+    
+    procedure StoreParam(N: integer);
+    var Offset: integer;
+    begin
+         Offset := 8 + 4 * (NumParams - N);
+         Emit('MOVE.L ');
+         WriteLn(Offset, '(A6),A0');
+         EmitLn('MOVE D0,(A0)');
+    end;
+    {--------------------------------------------------------------}
 
 To  get  the  count  right,  we  must  also  change  one line  in
 ParamList:
@@ -2145,7 +2104,7 @@ KISS.  In the next version of TINY,  we'll  use pass-by-reference
 for all parameters.  KISS will support both methods.
 
 
-LOCAL VARIABLES
+## LOCAL VARIABLES
 
 So  far,  we've  said  nothing  about  local  variables, and  our
 definition of procedures doesn't allow  for  them.    Needless to
@@ -2242,29 +2201,29 @@ offsets.  That means changing  the two references to NumParams in
 LoadParam and StoreParam:
 
 
-{--------------------------------------------------------------}
-{ Load a Parameter to the Primary Register }
-
-procedure LoadParam(N: integer);
-var Offset: integer;
-begin
-     Offset := 8 + 2 * (Base - N);
-     Emit('MOVE ');
-     WriteLn(Offset, '(A6),D0');
-end;
-
-
-{--------------------------------------------------------------}
-{ Store a Parameter from the Primary Register }
-
-procedure StoreParam(N: integer);
-var Offset: integer;
-begin
-     Offset := 8 + 2 * (Base - N);
-     Emit('MOVE D0,');
-     WriteLn(Offset, '(A6)');
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Load a Parameter to the Primary Register }
+    
+    procedure LoadParam(N: integer);
+    var Offset: integer;
+    begin
+         Offset := 8 + 2 * (Base - N);
+         Emit('MOVE ');
+         WriteLn(Offset, '(A6),D0');
+    end;
+    
+    
+    {--------------------------------------------------------------}
+    { Store a Parameter from the Primary Register }
+    
+    procedure StoreParam(N: integer);
+    var Offset: integer;
+    begin
+         Offset := 8 + 2 * (Base - N);
+         Emit('MOVE D0,');
+         WriteLn(Offset, '(A6)');
+    end;
+    {--------------------------------------------------------------}
 
 
 The idea is that the value of Base will be  frozen  after we have
@@ -2273,25 +2232,25 @@ the new, local variables, are inserted in the symbol table.  This
 is taken care of at the end of FormalList:
 
 
-{--------------------------------------------------------------}
-{ Process the Formal Parameter List of a Procedure }
-
-procedure FormalList;
-begin
-     Match('(');
-     if Look <> ')' then begin
-          FormalParam;
-          while Look = ',' do begin
-               Match(',');
-               FormalParam;
-          end;
-     end;
-     Match(')');
-     Fin;
-     Base := NumParams;
-     NumParams := NumParams + 4;
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Process the Formal Parameter List of a Procedure }
+    
+    procedure FormalList;
+    begin
+         Match('(');
+         if Look <> ')' then begin
+              FormalParam;
+              while Look = ',' do begin
+                   Match(',');
+                   FormalParam;
+              end;
+         end;
+         Match(')');
+         Fin;
+         Base := NumParams;
+         NumParams := NumParams + 4;
+    end;
+    {--------------------------------------------------------------}
 
 
 (We add four words to make allowances for the return  address and
@@ -2303,34 +2262,34 @@ declaring local variables into the parser.  The routines are very
 similar to Decl and TopDecls:
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate a Local Data Declaration }
-
-procedure LocDecl;
-var Name: char;
-begin
-   Match('v');
-     AddParam(GetName);
-     Fin;
-end;
-
-
-{--------------------------------------------------------------}
-
-
-{ Parse and Translate Local Declarations }
-
-function LocDecls: integer;
-var n: integer;
-begin
-     n := 0;
-     while Look = 'v' do begin
-          LocDecl;
-          inc(n);
-     end;
-     LocDecls := n;
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Parse and Translate a Local Data Declaration }
+    
+    procedure LocDecl;
+    var Name: char;
+    begin
+       Match('v');
+         AddParam(GetName);
+         Fin;
+    end;
+    
+    
+    {--------------------------------------------------------------}
+    
+    
+    { Parse and Translate Local Declarations }
+    
+    function LocDecls: integer;
+    var n: integer;
+    begin
+         n := 0;
+         while Look = 'v' do begin
+              LocDecl;
+              inc(n);
+         end;
+         LocDecls := n;
+    end;
+    {--------------------------------------------------------------}
 
 
 Note that LocDecls is a  FUNCTION, returning the number of locals
@@ -2339,25 +2298,25 @@ to DoProc.
 Next, we modify DoProc to use this information:
 
 
-{--------------------------------------------------------------}
-{ Parse and Translate a Procedure Declaration }
-
-procedure DoProc;
-var N: char;
-      k: integer;
-begin
-     Match('p');
-     N := GetName;
-     if InTable(N) then Duplicate(N);
-     ST[N] := 'p';
-     FormalList;
-     k := LocDecls;
-     ProcProlog(N, k);
-     BeginBlock;
-     ProcEpilog;
-     ClearParams;
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Parse and Translate a Procedure Declaration }
+    
+    procedure DoProc;
+    var N: char;
+          k: integer;
+    begin
+         Match('p');
+         N := GetName;
+         if InTable(N) then Duplicate(N);
+         ST[N] := 'p';
+         FormalList;
+         k := LocDecls;
+         ProcProlog(N, k);
+         BeginBlock;
+         ProcEpilog;
+         ClearParams;
+    end;
+    {--------------------------------------------------------------}
 
 
 (I've  made   a  couple  of  changes  here  that  weren't  really
@@ -2371,22 +2330,21 @@ the number of WORDS (not bytes) to allocate space  for.    Here's
 the new version of ProcProlog:
 
 
-{--------------------------------------------------------------}
-{ Write the Prolog for a Procedure }
-
-procedure ProcProlog(N: char; k: integer);
-begin
-     PostLabel(N);
-     Emit('LINK A6,#');
-     WriteLn(-2 * k)
-end;
-{--------------------------------------------------------------}
+    {--------------------------------------------------------------}
+    { Write the Prolog for a Procedure }
+    
+    procedure ProcProlog(N: char; k: integer);
+    begin
+         PostLabel(N);
+         Emit('LINK A6,#');
+         WriteLn(-2 * k)
+    end;
+    {--------------------------------------------------------------}
 
 
 That should do it.  Add these changes and see how they work.
 
-
-CONCLUSION
+## CONCLUSION
 
 At this point you know  how to compile procedure declarations and
 procedure calls,  with  parameters  passed  by  reference  and by
@@ -2405,12 +2363,9 @@ different variable types.
 That will be the next installment, which will be coming soon to a
 Forum near you.  See you then.
 
-
-*****************************************************************
-*                                                               *
-*                        COPYRIGHT NOTICE                       *
-*                                                               *
-*   Copyright (C) 1989 Jack W. Crenshaw. All rights reserved.   *
-*                                                               *
-*****************************************************************
+<div class="notice">
+	<h2>Copyright Notice</h2>
+    
+	<p>Copyright © 1989 Jack W. Crenshaw. All rights reserved.</p>
+</div>
 

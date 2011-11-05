@@ -4,14 +4,12 @@
 
 # Part X: INTRODUCING "TINY"
 
-    *****************************************************************
-    *                                                               *
-    *                        COPYRIGHT NOTICE                       *
-    *                                                               *
-    *   Copyright (C) 1989 Jack W. Crenshaw. All rights reserved.   *
-    *                                                               *
-    *****************************************************************
-    
+<div class="notice">
+	<h2>Copyright Notice</h2>
+		
+	<p>Copyright © 1988 Jack W. Crenshaw. All rights reserved.</p>
+</div>
+
 ## INTRODUCTION
 
 In the last installment, I showed you the general  idea  for  the
@@ -3491,12 +3489,9 @@ is shown below:
     end.
     {--------------------------------------------------------------}
     
-    
-    
-    *****************************************************************
-    *                                                               *
-    *                        COPYRIGHT NOTICE                       *
-    *                                                               *
-    *   Copyright (C) 1989 Jack W. Crenshaw. All rights reserved.   *
-    *                                                               *
-    *****************************************************************
+
+<div class="notice">
+	<h2>Copyright Notice</h2>
+
+	<p>Copyright © 1988 Jack W. Crenshaw. All rights reserved.</p>
+</div>
