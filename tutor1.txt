@@ -4,14 +4,13 @@
 
 # Part I: INTRODUCTION
 
-    *****************************************************************
-    *                                                               *
-    *                        COPYRIGHT NOTICE                       *
-    *                                                               *
-    *   Copyright (C) 1988 Jack W. Crenshaw. All rights reserved.   *
-    *                                                               *
-    *****************************************************************
-    
+
+<div class="notice">
+	<h2>Copyright Notice</h2>
+		
+Copyright (C) 1988 Jack W. Crenshaw. All rights reserved.
+</div>
+
 ## INTRODUCTION
 
 
@@ -34,7 +33,7 @@ share with you what I have  learned.    At the end of this series
 you will by no means be  a  computer scientist, nor will you know
 all the esoterics of  compiler  theory.    I intend to completely
 ignore the more theoretical  aspects  of  the  subject.  What you
-_WILL_ know is all  the  practical aspects that one needs to know
+_will_ know is all  the  practical aspects that one needs to know
 to build a working system.
 
 This is a "learn-by-doing" series.  In the course of the series I
