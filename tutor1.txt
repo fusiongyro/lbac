@@ -4,11 +4,10 @@
 
 # Part I: INTRODUCTION
 
-
 <div class="notice">
 	<h2>Copyright Notice</h2>
 		
-Copyright (C) 1988 Jack W. Crenshaw. All rights reserved.
+	<p>Copyright © 1988 Jack W. Crenshaw. All rights reserved.</p>
 </div>
 
 ## INTRODUCTION
@@ -349,15 +348,8 @@ That's it for this introduction.  Copy the code above into TP and
 compile it.  Make sure that it compiles and runs  correctly. Then
 proceed to the first lesson, which is on expression parsing.
 
-
-    *****************************************************************
-    *                                                               *
-    *                        COPYRIGHT NOTICE                       *
-    *                                                               *
-    *   Copyright (C) 1988 Jack W. Crenshaw. All rights reserved.   *
-    *                                                               *
-    *****************************************************************
-    
-
-
-
+<div class="notice">
+	<h2>Copyright Notice</h2>
+		
+	<p>Copyright © 1988 Jack W. Crenshaw. All rights reserved.</p>
+</div>
