@@ -2,7 +2,7 @@
 ## By Jack W. Crenshaw, Ph.D.
 ## 4 Aug 1988
 
-# Part III: MORE EXPRESSIONS
+# Part III: More Expressions
 
 
     *****************************************************************
@@ -14,7 +14,7 @@
     *****************************************************************
     
 
-## INTRODUCTION
+## Introduction
 
 In the last installment, we examined the techniques used to parse
 and  translate a general math expression.  We  ended  up  with  a
@@ -36,7 +36,7 @@ We'll use the trick when it serves us to do so, confident that we
 can discard it when we're ready to.
 
 
-## VARIABLES
+## Variables
 
 Most expressions  that we see in practice involve variables, such
 as
@@ -215,7 +215,7 @@ requiring further lookahead.   Even  if  you  had to look several
 tokens ahead, the principle would still work.
 
 
-## MORE ON ERROR HANDLING
+## More on Error Handling
 
 As long as we're talking  philosophy,  there's  another important
 issue to point out:  error  handling.    Notice that although the
@@ -337,7 +337,7 @@ installment.  And the other statements will all fall in  line, as
 long as we remember to KISS.
 
 
-## MULTI-CHARACTER TOKENS
+## Multi-Character Tokens
 
 Throughout  this   series,   I've   been   carefully  restricting
 everything  we  do  to  single-character  tokens,  all  the while
@@ -429,11 +429,11 @@ the  parser!  The local variable Name  in  procedures  Ident  and
 Assignment was originally declared as  "char",  and  must  now be
 declared string[8].  (Clearly,  we  could  make the string length
 longer if we chose, but most assemblers limit the length anyhow.)
-Make  this  change,  and  then  recompile and test. _NOW_ do  you
+Make  this  change,  and  then  recompile and test. _Now_ do  you
 believe that it's a simple change?
 
 
-## WHITE SPACE
+## White Space
 
 Before we leave this parser for awhile, let's  address  the issue
 of  white  space.   As it stands now, the parser  will  barf  (or
@@ -898,12 +898,3 @@ the structure of the parser changes a bit as we change  what sort
 of action has to be taken.  The information we pick up there will
 serve  us in good stead later on, even if you have no interest in
 interpreters.  See you next time.
-
-
-    *****************************************************************
-    *                                                               *
-    *                        COPYRIGHT NOTICE                       *
-    *                                                               *
-    *   Copyright (C) 1988 Jack W. Crenshaw. All rights reserved.   *
-    *                                                               *
-    *****************************************************************
