@@ -989,7 +989,7 @@ lots of serious programs were written using GOSUBs, but we can do
 better, and we will.  That's the next step.
 
 
-PASSING PARAMETERS
+## PASSING PARAMETERS
 
 Again, we all know the basic idea of passed parameters, but let's
 review them just to be safe.
@@ -1183,7 +1183,7 @@ a place to store the necessary information.  Later on, we'll have
 a place for that data and we can deal with the issue then.
 
 
-THE SEMANTICS OF PARAMETERS
+## THE SEMANTICS OF PARAMETERS
 
 So  far we've dealt with the SYNTAX  of  parameter  passing,  and
 we've got the parsing mechanisms in place to handle it.  Next, we
