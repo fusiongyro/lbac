@@ -2,7 +2,8 @@
 <chapter xmlns:id="part-ii-expression-parsing"
 	 xmlns="http://docbook.org/ns/docbook" version="5.0">
   <title>Expression Parsing</title>
-  <sect1 id="getting-started">
+  <info><date>24 July 1988</date></info>
+  <sect1 xmlns:id="getting-started">
     <title>Getting Started</title>
     <para>
       If you've read the introduction document to this series, you will
@@ -29,7 +30,7 @@ x = 2*y + 3/(4*z)
       rolling soon enough.
     </para>
   </sect1>
-  <sect1 id="single-digits">
+  <sect1 xmlns:id="single-digits">
     <title>Single Digits</title>
     <para>
       In keeping with the whole theme of this series (KISS, remember?),
@@ -99,7 +100,7 @@ end.
       choices, but this one makes sense.
     </para>
   </sect1>
-  <sect1 id="binary-expressions">
+  <sect1 xmlns:id="binary-expressions">
     <title>Binary Expressions</title>
     <para>
       Now that we have that under our belt, let's branch out a bit.
