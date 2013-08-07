@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<locatingRules xmlns="http://thaiopensource.com/ns/locating-rules/1.0">
+  <uri resource="tutor1.xml" uri="../../../../../opt/local/share/xml/docbook/5.0/rng/docbook.rnc"/>
+</locatingRules>
