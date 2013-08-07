@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<book xmlns="http://docbook.org/ns/docbook" version="5.0">
-  <title>Let's Build a Compiler!</title>
-  <info>
-    <author>
-      <personname>
-	<firstname>Jack</firstname>
-	<othername>W.</othername>
-	<surname>Crenshaw</surname>
-	<honorific>Ph.D</honorific>
-      </personname>
-    </author>
-    <copyright>
-      <year>1988</year>
-      <holder>Jack W. Crenshaw</holder>
-    </copyright>
-  </info>
-
-  <chapter>
+<chapter xmlns:id="part-i-introduction"
+	 xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Introduction</title>
     <info>
       <date>24 July 1988</date>
@@ -24,8 +8,6 @@
 
     <sect1>
       <title>Introduction</title>
-      <sect2>
-	<title>Introduction</title>
     <para>
       This series of articles is a tutorial on the theory and practice
       of developing language parsers and compilers. Before we are
@@ -137,7 +119,7 @@
     <para>
       I'll be taking a much different approach in this series. To begin
       with, I won't dwell long on options. I'll be giving you
-      <emphasis>A</emphasis> way that works. If you want to explore
+      <emphasis>a</emphasis> way that works. If you want to explore
       options, well and good ... I encourage you to do so ... but I'll
       be sticking to what I know. I also will skip over most of the
       theory that puts people to sleep. Don't get me wrong: I don't
@@ -149,7 +131,7 @@
     </para>
     <para>
       I also will discuss only one approach to parsing: top-down,
-      recursive descent parsing, which is the <emphasis>ONLY</emphasis>
+      recursive descent parsing, which is the <emphasis>only</emphasis>
       technique that's at all amenable to hand-crafting a compiler. The
       other approaches are only useful if you have a tool like YACC, and
       also don't care how much memory space the final product uses.
@@ -175,35 +157,38 @@
       helpful in letting me understand what's going on without wading
       through a lot of boiler plate. Chief among these is the use of
       single-character tokens, with no embedded spaces, for the early
-      design work. I figure that if I can get a parser to recognize and
-      deal with I-T-L, I can get it to do the same with IF-THEN- ELSE.
-      And I can. In the second &quot;lesson,&quot; I'll show you just
-      how easy it is to extend a simple parser to handle tokens of
-      arbitrary length. As another trick, I completely ignore file I/O,
-      figuring that if I can read source from the keyboard and output
-      object to the screen, I can also do it from/to disk files.
-      Experience has proven that once a translator is working correctly,
-      it's a straightforward matter to redirect the I/O to files. The
-      last trick is that I make no attempt to do error
-      correction/recovery. The programs we'll be building will RECOGNIZE
-      errors, and will not CRASH, but they will simply stop on the first
-      error ... just like good ol' Turbo does. There will be other
-      tricks that you'll see as you go. Most of them can't be found in
-      any compiler textbook, but they work.
+      design work. I figure that if I can get a parser to recognize
+      and deal with I-T-L, I can get it to do the same with
+      if-then-else. And I can. In the second &quot;lesson,&quot; I'll
+      show you just how easy it is to extend a simple parser to handle
+      tokens of arbitrary length. As another trick, I completely
+      ignore file I/O, figuring that if I can read source from the
+      keyboard and output object to the screen, I can also do it
+      from/to disk files. Experience has proven that once a translator
+      is working correctly, it's a straightforward matter to redirect
+      the I/O to files. The last trick is that I make no attempt to do
+      error correction/recovery. The programs we'll be building will
+      <emphasis>recognize</emphasis> errors, and will not
+      <emphasis>crash</emphasis>, but they will simply stop on the
+      first error ... just like good ol' Turbo does. There will be
+      other tricks that you'll see as you go. Most of them can't be
+      found in any compiler textbook, but they work.
     </para>
     <para>
       A word about style and efficiency. As you will see, I tend to
-      write programs in <emphasis>VERY</emphasis> small, easily
+      write programs in <emphasis>very</emphasis> small, easily
       understood pieces. None of the procedures we'll be working with
-      will be more than about 15-20 lines long. I'm a fervent devotee of
-      the KISS (Keep It Simple, Sidney) school of software development.
-      I try to never do something tricky or complex, when something
-      simple will do. Inefficient? Perhaps, but you'll like the results.
-      As Brian Kernighan has said, FIRST make it run, THEN make it run
-      fast. If, later on, you want to go back and tighten up the code in
-      one of our products, you'll be able to do so, since the code will
-      be quite understandable. If you do so, however, I urge you to wait
-      until the program is doing everything you want it to.
+      will be more than about 15-20 lines long. I'm a fervent devotee
+      of the KISS (Keep It Simple, Sidney) school of software
+      development. I try to never do something tricky or complex, when
+      something simple will do. Inefficient? Perhaps, but you'll like
+      the results. As Brian Kernighan has said,
+      <emphasis>first</emphasis> make it run,
+      <emphasis>then</emphasis> make it run fast. If, later on, you
+      want to go back and tighten up the code in one of our products,
+      you'll be able to do so, since the code will be quite
+      understandable. If you do so, however, I urge you to wait until
+      the program is doing everything you want it to.
     </para>
     <para>
       I also have a tendency to delay building a module until I discover
@@ -226,8 +211,8 @@
       language better than I do will offer us the equivalent object code
       fragments as we need them.
     </para>
-  </sect2>
-  <sect2 xmlns:id="the-cradle">
+  </sect1>
+  <sect1 xmlns:id="the-cradle">
     <title>The Cradle</title>
     <para>
       Every program needs some boiler plate ... I/O routines, error
@@ -396,7 +381,5 @@ end.
       compile it. Make sure that it compiles and runs correctly. Then
       proceed to the first lesson, which is on expression parsing.
     </para>
-  </sect2>
-</sect1>
+  </sect1>
 </chapter>
-</book>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Let's Build a Compiler!</title>
+  <info>
+    <author>
+      <personname>
+	<firstname>Jack</firstname>
+	<othername>W.</othername>
+	<surname>Crenshaw</surname>
+	<honorific>Ph.D</honorific>
+      </personname>
+    </author>
+    <copyright>
+      <year>1988</year>
+      <holder>Jack W. Crenshaw</holder>
+    </copyright>
+  </info>
+
+  <xi:include href="1-intro.xml"/>
+  <xi:include href="2-expression-parsing.xml"/>
+</book>
