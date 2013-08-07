@@ -33,7 +33,7 @@
       one needs to know to build a working system.
     </para>
     <para>
-      This is a &quot;learn-by-doing&quot; series. In the course of the
+      This is a <quote>learn-by-doing</quote> series. In the course of the
       series I will be performing experiments on a computer. You will be
       expected to follow along, repeating the experiments that I do, and
       performing some on your own. I will be using Turbo Pascal 4.0 on a
@@ -120,7 +120,7 @@
       I'll be taking a much different approach in this series. To begin
       with, I won't dwell long on options. I'll be giving you
       <emphasis>a</emphasis> way that works. If you want to explore
-      options, well and good ... I encourage you to do so ... but I'll
+      options, well and good… I encourage you to do so… but I'll
       be sticking to what I know. I also will skip over most of the
       theory that puts people to sleep. Don't get me wrong: I don't
       belittle the theory, and it's vitally important when it comes to
@@ -145,12 +145,12 @@
       code), Ron showed us that it is a straightforward matter to make a
       compiler directly produce executable object code, in the form of
       assembler language statements. The code will
-      <emphasis>NOT</emphasis> be the world's tightest code ...
+      <emphasis>not</emphasis> be the world's tightest code ...
       producing optimized code is a much more difficult job. But it will
       work, and work reasonably well. Just so that I don't leave you
       with the impression that our end product will be worthless, I
-      <emphasis>DO</emphasis> intend to show you how to &quot;soup
-      up&quot; the compiler with some optimization.
+      <emphasis>do</emphasis> intend to show you how to <quote>soup
+      up</quote> the compiler with some optimization.
     </para>
     <para>
       Finally, I'll be using some tricks that I've found to be most
@@ -159,7 +159,7 @@
       single-character tokens, with no embedded spaces, for the early
       design work. I figure that if I can get a parser to recognize
       and deal with I-T-L, I can get it to do the same with
-      if-then-else. And I can. In the second &quot;lesson,&quot; I'll
+      if-then-else. And I can. In the second <quote>lesson,</quote> I'll
       show you just how easy it is to extend a simple parser to handle
       tokens of arbitrary length. As another trick, I completely
       ignore file I/O, figuring that if I can read source from the
@@ -170,7 +170,7 @@
       error correction/recovery. The programs we'll be building will
       <emphasis>recognize</emphasis> errors, and will not
       <emphasis>crash</emphasis>, but they will simply stop on the
-      first error ... just like good ol' Turbo does. There will be
+      first error… just like good ol' Turbo does. There will be
       other tricks that you'll see as you go. Most of them can't be
       found in any compiler textbook, but they work.
     </para>
@@ -203,7 +203,7 @@
       is that we don't fool around with P-code or imaginary CPUs, but
       that we will start out on day one producing working, executable
       object code, at least in the form of assembler language source.
-      However, you may not like my choice of assembler language ... it's
+      However, you may not like my choice of assembler language… it's
       68000 code, which is what works on my system (under SK*DOS). I
       think you'll find, though, that the translation to any other CPU
       such as the 80x86 will be quite obvious, though, so I don't see a
@@ -215,7 +215,7 @@
   <sect1 xmlns:id="the-cradle">
     <title>The Cradle</title>
     <para>
-      Every program needs some boiler plate ... I/O routines, error
+      Every program needs some boiler plate… I/O routines, error
       message routines, etc. The programs we develop here will be no
       exceptions. I've tried to hold this stuff to an absolute minimum,
       however, so that we can concentrate on the important stuff without
@@ -233,9 +233,9 @@
       I've had very good luck with the approach shown here, which is to
       use a single, global, lookahead character. Part of the
       initialization procedure (the only part, so far!) serves to
-      &quot;prime the pump&quot; by reading the first character from the
+      <quote>prime the pump</quote> by reading the first character from the
       input stream. No other special techniques are required with Turbo
-      4.0 ... each successive call to GetChar will read the next
+      4.0… each successive call to GetChar will read the next
       character in the stream.
     </para>
     <programlisting>

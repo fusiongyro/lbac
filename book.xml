@@ -7,8 +7,7 @@
       <personname>
 	<firstname>Jack</firstname>
 	<othername>W.</othername>
-	<surname>Crenshaw</surname>
-	<honorific>Ph.D</honorific>
+	<surname>Crenshaw, Ph.D</surname>
       </personname>
     </author>
     <copyright>
@@ -20,4 +19,5 @@
   <xi:include href="1-intro.xml"/>
   <xi:include href="2-expression-parsing.xml"/>
   <xi:include href="3-more-expressions.xml"/>
+  <xi:include href="4-interpreters.xml"/>
 </book>

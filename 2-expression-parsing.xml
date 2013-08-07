@@ -39,7 +39,7 @@ x = 2*y + 3/(4*z)
     </para>
     <para>
       Before starting to code, make sure you have a baseline copy of the
-      &quot;cradle&quot; that I gave last time. We'll be using it again
+      <quote>cradle</quote> that I gave last time. We'll be using it again
       for other experiments. Then add this code:
     </para>
     <programlisting>
@@ -53,7 +53,7 @@ end;
 {---------------------------------------------------------------}
 </programlisting>
     <para>
-      And add the line &quot;Expression;&quot; to the main program so
+      And add the line <quote>Expression;</quote> to the main program so
       that it reads:
     </para>
     <programlisting>
@@ -75,20 +75,21 @@ end.
     </para>
     <para>
       OK, I grant you that it's pretty limited. But don't brush it off
-      too lightly. This little &quot;compiler&quot; does, on a very
-      limited scale, exactly what any larger compiler does: it correctly
-      recognizes legal statements in the input &quot;language&quot; that
-      we have defined for it, and it produces correct, executable
-      assembler code, suitable for assembling into object format. Just
-      as importantly, it correctly recognizes statements that are NOT
-      legal, and gives a meaningful error message. Who could ask for
-      more? As we expand our parser, we'd better make sure those two
+      too lightly. This little <quote>compiler</quote> does, on a very
+      limited scale, exactly what any larger compiler does: it
+      correctly recognizes legal statements in the input
+      <quote>language</quote> that we have defined for it, and it
+      produces correct, executable assembler code, suitable for
+      assembling into object format. Just as importantly, it correctly
+      recognizes statements that are <emphasis>not</emphasis> legal,
+      and gives a meaningful error message. Who could ask for more? As
+      we expand our parser, we'd better make sure those two
       characteristics always hold true.
     </para>
     <para>
       There are some other features of this tiny program worth
       mentioning. First, you can see that we don't separate code
-      generation from parsing ... as soon as the parser knows what we
+      generation from parsing… as soon as the parser knows what we
       want done, it generates the object code directly. In a real
       compiler, of course, the reads in GetChar would be from a disk
       file, and the writes to another disk file, but this way is much
@@ -104,7 +105,7 @@ end.
     <title>Binary Expressions</title>
     <para>
       Now that we have that under our belt, let's branch out a bit.
-      Admittedly, an &quot;expression&quot; consisting of only one
+      Admittedly, an <quote>expression</quote> consisting of only one
       character is not going to meet our needs for long, so let's see
       what we can do to extend it. Suppose we want to handle expressions
       of the form:
@@ -230,7 +231,7 @@ end;
       lifetimes to the issue of code optimization, and there are indeed
       things that can be done to improve the quality of code output.
       Some compilers do quite well, but there is a heavy price to pay in
-      complexity, and it's a losing battle anyway ... there will
+      complexity, and it's a losing battle anyway… there will
       probably never come a time when a good assembler-language pro-
       grammer can't out-program a compiler. Before this session is over,
       I'll briefly mention some ways that we can do a little op-
@@ -289,7 +290,7 @@ end;
     <title>General Expressions</title>
     <para>
       In the REAL world, an expression can consist of one or more terms,
-      separated by &quot;addops&quot; ('+' or '-'). In BNF, this is
+      separated by <quote>addops</quote> ('+' or '-'). In BNF, this is
       written
     </para>
     <programlisting>
@@ -318,10 +319,10 @@ end;
 {--------------------------------------------------------------}
 </programlisting>
     <para>
-      NOW we're getting somewhere! This version handles any number of
+      <emphasis>Now</emphasis> we're getting somewhere! This version handles any number of
       terms, and it only cost us two extra lines of code. As we go on,
       you'll discover that this is characteristic of top-down parsers
-      ... it only takes a few lines of code to accomodate extensions to
+     … it only takes a few lines of code to accomodate extensions to
       the language. That's what makes our incremental approach possible.
       Notice, too, how well the code of procedure Expression matches the
       BNF definition. That, too, is characteristic of the method. As you
@@ -330,14 +331,14 @@ end;
     </para>
     <para>
       OK, compile the new version of our parser, and give it a try. As
-      usual, verify that the &quot;compiler&quot; can handle any legal
+      usual, verify that the <quote>compiler</quote> can handle any legal
       expression, and will give a meaningful error message for an
       illegal one. Neat, eh? You might note that in our test version,
       any error message comes out sort of buried in whatever code had
       already been generated. But remember, that's just because we are
-      using the CRT as our &quot;output file&quot; for this series of
+      using the CRT as our <quote>output file</quote> for this series of
       experiments. In a production version, the two outputs would be
-      separated ... one to the output file, and one to the screen.
+      separated… one to the output file, and one to the screen.
     </para>
   </sect1>
   <sect1 xmlns:id="using-the-stack">
@@ -346,10 +347,10 @@ end;
       At this point I'm going to violate my rule that we don't introduce
       any complexity until it's absolutely necessary, long enough to
       point out a problem with the code we're generating. As things
-      stand now, the parser uses D0 for the &quot;primary&quot;
+      stand now, the parser uses D0 for the <quote>primary</quote>
       register, and D1 as a place to store the partial sum. That works
       fine for now, because as long as we deal with only the
-      &quot;addops&quot; '+' and '-', any new term can be added in as
+      <quote>addops</quote> '+' and '-', any new term can be added in as
       soon as it is found. But in general that isn't true. Consider, for
       example, the expression
     </para>
@@ -404,7 +405,7 @@ end;
     <para>
       Now let's get down to some <emphasis>really</emphasis> serious
       business. As you all know, there are other math operators than
-      &quot;addops&quot; ... expressions can also have multiply and
+      <quote>addops</quote>… expressions can also have multiply and
       divide operations. You also know that there is an implied
       operator <emphasis>precedence</emphasis>, or hierarchy,
       associated with expressions, so that in an expression like
@@ -421,7 +422,7 @@ end;
       In the early days of compiler technology, people used some rather
       complex techniques to insure that the operator precedence rules
       were obeyed. It turns out, though, that none of this is necessary
-      ... the rules can be accommodated quite nicely by our top-down
+     … the rules can be accommodated quite nicely by our top-down
       parsing technique. Up till now, the only form that we've
       considered for a term is that of a single decimal digit.
     </para>
@@ -434,7 +435,7 @@ end;
       &lt;term&gt; ::= &lt;factor&gt;  [ &lt;mulop&gt; &lt;factor ]*
 </programlisting>
     <para>
-      What is a factor? For now, it's what a term used to be ... a
+      What is a factor? For now, it's what a term used to be… a
       single digit.
     </para>
     <para>
@@ -619,10 +620,10 @@ end;
                      -1
 </programlisting>
     <para>
-      WOOPS! It doesn't work, does it? Procedure Expression expects
-      everything to start with an integer, so it coughs up the leading
-      minus sign. You'll find that +3 won't work either, nor will
-      something like
+      <emphasis>Woops!</emphasis> It doesn't work, does it? Procedure
+      Expression expects everything to start with an integer, so it
+      coughs up the leading minus sign. You'll find that +3 won't work
+      either, nor will something like
     </para>
     <programlisting>
                 -(3-2) .
@@ -657,11 +658,12 @@ end;
  
 </programlisting>
     <para>
-      I TOLD you that making changes was easy! This time it cost us only
-      three new lines of Pascal. Note the new reference to function
-      IsAddop. Since the test for an addop appeared twice, I chose to
-      embed it in the new function. The form of IsAddop should be
-      apparent from that for IsAlpha. Here it is:
+      I <emphasis>told</emphasis> you that making changes was easy!
+      This time it cost us only three new lines of Pascal. Note the
+      new reference to function IsAddop. Since the test for an addop
+      appeared twice, I chose to embed it in the new function. The
+      form of IsAddop should be apparent from that for IsAlpha. Here
+      it is:
     </para>
     <programlisting>
 {--------------------------------------------------------------}
@@ -677,8 +679,8 @@ end;
       OK, make these changes to the program and recompile. You should
       also include IsAddop in your baseline copy of the cradle. We'll be
       needing it again later. Now try the input -1 again. Wow! The
-      efficiency of the code is pretty poor ... six lines of code just
-      for loading a simple constant ... but at least it's correct.
+      efficiency of the code is pretty poor… six lines of code just
+      for loading a simple constant… but at least it's correct.
       Remember, we're not trying to replace Turbo Pascal here.
     </para>
     <para>
@@ -707,11 +709,11 @@ end;
       how we can improve the quality of the generated code. As I said,
       the production of tight code is not the main purpose of this
       series of articles. But you need to at least know that we aren't
-      just wasting our time here ... that we can indeed modify the
-      parser further to make it produce better code, without throwing
-      away everything we've done to date. As usual, it turns out that
-      SOME optimization is not that difficult to do ... it simply takes
-      some extra code in the parser.
+      just wasting our time here… that we can indeed modify the parser
+      further to make it produce better code, without throwing away
+      everything we've done to date. As usual, it turns out that
+      <emphasis>some</emphasis> optimization is not that difficult to
+      do… it simply takes some extra code in the parser.
     </para>
     <para>
       There are two basic approaches we can take:
@@ -722,23 +724,25 @@ end;
           Try to fix up the code after it's generated
         </para>
         <para>
-          This is the concept of &quot;peephole&quot; optimization. The
-          general idea it that we know what combinations of instructions
-          the compiler is going to generate, and we also know which ones
-          are pretty bad (such as the code for -1, above). So all we do
-          is to scan the produced code, looking for those combinations,
-          and replacing them by better ones. It's sort of a macro
-          expansion, in reverse, and a fairly straightforward exercise
-          in pattern-matching. The only complication, really, is that
-          there may be a LOT of such combinations to look for. It's
-          called peephole optimization simply because it only looks at a
-          small group of instructions at a time. Peephole optimization
-          can have a dramatic effect on the quality of the code, with
-          little change to the structure of the compiler itself. There
-          is a price to pay, though, in both the speed, size, and
-          complexity of the compiler. Looking for all those combinations
-          calls for a lot of IF tests, each one of which is a source of
-          error. And, of course, it takes time.
+          This is the concept of <quote>peephole</quote> optimization.
+          The general idea it that we know what combinations of
+          instructions the compiler is going to generate, and we also
+          know which ones are pretty bad (such as the code for -1,
+          above). So all we do is to scan the produced code, looking
+          for those combinations, and replacing them by better ones.
+          It's sort of a macro expansion, in reverse, and a fairly
+          straightforward exercise in pattern-matching. The only
+          complication, really, is that there may be a
+          <emphasis>lot</emphasis> of such combinations to look for.
+          It's called peephole optimization simply because it only
+          looks at a small group of instructions at a time. Peephole
+          optimization can have a dramatic effect on the quality of
+          the code, with little change to the structure of the
+          compiler itself. There is a price to pay, though, in both
+          the speed, size, and complexity of the compiler. Looking for
+          all those combinations calls for a lot of IF tests, each one
+          of which is a source of error. And, of course, it takes
+          time.
         </para>
         <para>
           In the classical implementation of a peephole optimizer,
@@ -748,7 +752,7 @@ end;
           see that the optimizer could even be a separate
           <emphasis>program</emphasis> from the compiler proper. Since
           the optimizer only looks at the code through a small
-          &quot;window&quot; of instructions (hence the name), a
+          <quote>window</quote> of instructions (hence the name), a
           better implementation would be to simply buffer up a few
           lines of output, and scan the buffer after each EmitLn.
         </para>
@@ -766,7 +770,7 @@ end;
           chosen to recognize the unary minus in Factor instead of in
           Expression, we could treat constants like -1 as ordinary
           constants, rather then generating them from positive ones.
-          None of these things are difficult to deal with ... they
+          None of these things are difficult to deal with… they
           only add extra tests in the code, which is why I haven't
           included them in our program. The way I see it, once we get
           to the point that we have a working compiler, generating
@@ -779,7 +783,7 @@ end;
     <para>
       There IS one more type of optimization worth mentioning, that
       seems to promise pretty tight code without too much hassle. It's
-      my &quot;invention&quot; in the sense that I haven't seen it
+      my <quote>invention</quote> in the sense that I haven't seen it
       suggested in print anywhere, though I have no illusions that it's
       original with me.
     </para>
@@ -788,18 +792,18 @@ end;
       use of the CPU registers. Remember back when we were doing only
       addition and subtraction, that we used registers D0 and D1, rather
       than the stack? It worked, because with only those two operations,
-      the &quot;stack&quot; never needs more than two entries.
+      the <quote>stack</quote> never needs more than two entries.
     </para>
     <para>
       Well, the 68000 has eight data registers. Why not use them as a
       privately managed stack? The key is to recognize that, at any
       point in its processing, the parser <emphasis>knows</emphasis>
       how many items are on the stack, so it can indeed manage it
-      properly. We can define a private &quot;stack pointer&quot; that
+      properly. We can define a private <quote>stack pointer</quote> that
       keeps track of which stack level we're at, and addresses the
       corresponding register. Procedure Factor, for example, would not
       cause data to be loaded into register D0, but into whatever the
-      current &quot;top-of-stack&quot; register happened to be.
+      current <quote>top-of-stack</quote> register happened to be.
     </para>
     <para>
       What we're doing in effect is to replace the CPU's RAM stack
@@ -815,7 +819,7 @@ end;
     <para>
       For the record, I have implemented this concept, just to make sure
       it works before I mentioned it to you. It does. In practice, it
-      turns out that you can't really use all eight levels ... you need
+      turns out that you can't really use all eight levels… you need
       at least one register free to reverse the operand order for
       division (sure wish the 68000 had an XTHL, like the 8080!). For
       expressions that include function calls, we would also need a
@@ -824,7 +828,7 @@ end;
     </para>
     <para>
       So, you see, getting better code isn't that difficult, but it
-      does add complexity to the our translator ... complexity we can
+      does add complexity to the our translator… complexity we can
       do without at this point. For that reason, I
       <emphasis>strongly</emphasis> suggest that we continue to ignore
       efficiency issues for the rest of this series, secure in the
