@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <chapter xmlns:id="part-ii-expression-parsing"
 	 xmlns="http://docbook.org/ns/docbook" version="5.0">
-  <info><date>4 Aug 1988</date></info>
   <title>More Expressions</title>
-  <sect1 id="introduction">
+  <info><date>4 Aug 1988</date></info>
+  <sect1 xmlns:id="introduction">
     <title>Introduction</title>
     <para>
       In the last installment, we examined the techniques used to parse
@@ -35,7 +35,7 @@
       we're ready to.
     </para>
   </sect1>
-  <sect1 id="variables">
+  <sect1 xmlns:id="variables">
     <title>Variables</title>
     <para>
       Most expressions that we see in practice involve variables, such
@@ -124,7 +124,7 @@ end;
       hurt too badly, did it?
     </para>
   </sect1>
-  <sect1 id="functions">
+  <sect1 xmlns:id="functions">
     <title>Functions</title>
     <para>
       There is only one other common kind of factor supported by most
@@ -234,7 +234,7 @@ end;
       tokens ahead, the principle would still work.
     </para>
   </sect1>
-  <sect1 id="more-on-error-handling">
+  <sect1 xmlns:id="more-on-error-handling">
     <title>More on Error Handling</title>
     <para>
       As long as we're talking philosophy, there's another important
@@ -306,7 +306,7 @@ end;
       supposed to.
     </para>
   </sect1>
-  <sect1 id="assignment-statements">
+  <sect1 xmlns:id="assignment-statements">
     <title>Assignment Statements</title>
     <para>
       OK, at this point we have a parser that works very nicely. I'd
@@ -375,7 +375,7 @@ end;
       to KISS.
     </para>
   </sect1>
-  <sect1 id="multi-character-tokens">
+  <sect1 xmlns:id="multi-character-tokens">
     <title>Multi-Character Tokens</title>
     <para>
       Throughout this series, I've been carefully restricting everything
@@ -473,7 +473,7 @@ end;
       <emphasis>Now</emphasis> do you believe that it's a simple change?
     </para>
   </sect1>
-  <sect1 id="white-space">
+  <sect1 xmlns:id="white-space">
     <title>White Space</title>
     <para>
       Before we leave this parser for awhile, let's address the issue of
