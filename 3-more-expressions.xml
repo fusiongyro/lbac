@@ -318,8 +318,9 @@ end;
     </para>
     <para>
       Of course, parsing an expression is not much good without having
-      something to do with it afterwards. Expressions <emphasis>usually</emphasis> (but not
-      always) appear in assignment statements, in the form
+      something to do with it afterwards. Expressions
+      <emphasis>usually</emphasis> (but not always) appear in
+      assignment statements, in the form
     </para>
     <programlisting>
       &lt;Ident&gt; = &lt;Expression&gt;

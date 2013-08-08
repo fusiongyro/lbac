@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <locatingRules xmlns="http://thaiopensource.com/ns/locating-rules/1.0">
+  <uri resource="5-control-constructs.xml" uri="../../../../../opt/local/share/xml/docbook/5.0/rng/docbook.rnc"/>
   <uri resource="4-interpreters.xml" uri="../../../../../opt/local/share/xml/docbook/5.0/rng/docbook.rnc"/>
   <uri resource="1-intro.xml" uri="../../../../../opt/local/share/xml/docbook/5.0/rng/docbook.rnc"/>
   <uri resource="3-more-expressions.xml" uri="../../../../../opt/local/share/xml/docbook/5.0/rng/docbook.rnc"/>
