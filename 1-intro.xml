@@ -260,7 +260,7 @@
       4.0… each successive call to <literal>GetChar</literal> will read
       the next character in the stream.
     </para>
-    <programlisting>
+    <programlisting language="pascal" xmlns:id="cradle-source">
 {--------------------------------------------------------------}
 program Cradle;
 
