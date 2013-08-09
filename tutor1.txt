@@ -2,7 +2,7 @@
 ## By Jack W. Crenshaw, Ph.D.
 ## 24 July 1988
 
-# INTRODUCTION
+# Introduction
 
 This series of articles is a tutorial on the theory and practice of
 developing language parsers and compilers. Before we are finished, we
@@ -175,7 +175,7 @@ very good luck with the approach shown here, which is to use a single,
 global, lookahead character. Part of the initialization procedure (the
 only part, so far!) serves to "prime the pump" by reading the first
 character from the input stream. No other special techniques are
-required with Turbo 4.0… each successive call to GetChar will read
+required with Turbo 4.0… each successive call to `GetChar` will read
 the next character in the stream.
 
 
@@ -320,4 +320,3 @@ the next character in the stream.
 That's it for this introduction. Copy the code above into TP and
 compile it. Make sure that it compiles and runs correctly. Then
 proceed to the first lesson, which is on expression parsing.
-
