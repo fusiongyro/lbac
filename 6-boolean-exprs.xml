@@ -48,11 +48,33 @@
       for arithmetic expressions, without ever actually writing them
       down all in one place. It's time that we did so. They are:
     </para>
-    <programlisting>
- &lt;expression&gt; ::= &lt;unary op&gt; &lt;term&gt; [&lt;addop&gt; &lt;term&gt;]*
- &lt;term&gt;       ::= &lt;factor&gt; [&lt;mulop&gt; factor]*
- &lt;factor&gt;     ::= &lt;integer&gt; | &lt;variable&gt; | ( &lt;expression&gt; )
-</programlisting>
+    <productionset>
+      <production xml:id="expr">
+	<lhs>&lt;expression&gt;</lhs>
+	<rhs>
+	  <nonterminal def="#unary-op">&lt;unary op&gt;</nonterminal>
+	  <nonterminal def="#term">&lt;term&gt;</nonterminal>
+	  [<nonterminal def="#add-op">&lt;addop&gt;</nonterminal>
+	   <nonterminal def="#term">&lt;term&gt;</nonterminal>]*
+	</rhs>
+      </production>
+      <production xml:id="term">
+	<lhs>&lt;term&gt;</lhs>
+	<rhs>
+	  <nonterminal def="#factor">&lt;factor&gt;</nonterminal>
+	  [<nonterminal def="#mul-op">&lt;mulop&gt;</nonterminal>
+	   <nonterminal def="#factor">&lt;factor&gt;</nonterminal>]*
+	</rhs>
+      </production>
+      <production xml:id="factor">
+	<lhs>&lt;factor&gt;</lhs>
+	<rhs>
+	  <nonterminal def="#integer">&lt;integer&gt;</nonterminal>
+	  | <nonterminal def="#varible">&lt;variable&gt;</nonterminal>
+	  | ( <nonterminal def="#expr">&lt;expression&gt;</nonterminal> )
+	</rhs>
+      </production>
+    </productionset>
     <para>
       (Remember, the nice thing about this grammar is that it enforces
       the operator precedence hierarchy that we normally expect for
