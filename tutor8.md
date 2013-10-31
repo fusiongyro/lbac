@@ -2,17 +2,9 @@
 ## By Jack W. Crenshaw, Ph.D.
 ## 2 April 1989
 
-# Part VIII: A LITTLE PHILOSOPHY
-
-    *****************************************************************
-    *                                                               *
-    *                        COPYRIGHT NOTICE                       *
-    *                                                               *
-    *   Copyright (C) 1989 Jack W. Crenshaw. All rights reserved.   *
-    *                                                               *
-    *****************************************************************
+# A Little Philosophy
     
-## INTRODUCTION
+## Introduction
 
 This is going to be a  different  kind of session than the others
 in our series on  parsing  and  compiler  construction.  For this
@@ -30,8 +22,7 @@ with this series: what's coming up in future installments, and in
 general what all  this  is  about.   I'll also share some general
 thoughts concerning the usefulness of what we've been doing.
 
-
-## THE ROAD HOME
+## The Road Home
 
 So far, we've  covered  the parsing and translation of arithmetic
 expressions,  Boolean expressions, and combinations connected  by
@@ -44,8 +35,8 @@ help  us  see  the  forest  through  the  trees.    In  the  last
 installment  we dealt with lexical scanning,  and  I  showed  you
 simple but powerful ways to remove the single-character barriers.
 
-Throughout the whole study, I've emphasized  the  KISS philosophy
-... Keep It Simple, Sidney ... and I hope by now  you've realized
+Throughout the whole study, I've emphasized  the  KISS philosophy…
+Keep It Simple, Sidney… and I hope by now  you've realized
 just  how  simple  this stuff can really be.  While there are for
 sure areas of compiler  theory  that  are truly intimidating, the
 ultimate message of this series is that in practice you  can just
@@ -91,16 +82,16 @@ These constructs are going  to  be part of the languages I build.
 I  have  three  languages in mind at this point, two of which you
 will see in installments to come:
 
-TINY - A  minimal,  but  usable  language  on the order  of  Tiny
+ - TINY - A  minimal,  but  usable  language  on the order  of  Tiny
        BASIC or Tiny C.  It won't be very practical, but  it will
        have enough power to let you write and  run  real programs
        that do something worthwhile.
 
-KISS - The  language  I'm  building for my  own  use.    KISS  is
+ - KISS - The  language  I'm  building for my  own  use.    KISS  is
        intended to be  a  systems programming language.  It won't
        have strong typing  or  fancy data structures, but it will
-       support most of  the  things  I  want to do with a higher-
-       order language (HOL), except perhaps writing compilers.
+       support most of  the  things  I  want to do with a higher-order
+	   language (HOL), except perhaps writing compilers.
                               
 I've also  been  toying  for  years  with  the idea of a HOL-like
 assembler,  with  structured  control  constructs   and  HOL-like
@@ -111,7 +102,7 @@ easier to implement a language like KISS, that only uses a subset
 of the CPU instructions.    As you know, assembly language can be
 bizarre  and  irregular  in the extreme, and a language that maps
 one-for-one onto it can be a real challenge.  Still,  I've always
-felt that the syntax used  in conventional assemblers is dumb ...
+felt that the syntax used  in conventional assemblers is dumb…
 why is
 
      MOVE.L A,B
@@ -140,11 +131,10 @@ It's  possible  to  build a complete, working compiler for a real
 language, using nothing  but  the same kinds of techniques you've
 learned so far.  And THAT brings up some interesting questions.
 
-
-## WHY IS IT SO SIMPLE?
+## Why Is It So Simple?
 
 Before embarking  on this series, I always thought that compilers
-were just naturally complex computer  programs  ...  the ultimate
+were just naturally complex computer  programs…  the ultimate
 challenge.  Yet the things we have done here have  usually turned
 out to be quite simple, sometimes even trivial.
 
@@ -156,7 +146,6 @@ things got too complex to deal with in the ways  we  have so far.
 But at this point I've already  been  down the road far enough to
 see the end of it.  Guess what?
                               
-
 > **There are no hard parts!**
 
 Then, I thought maybe it was because we were not  generating very
@@ -170,7 +159,7 @@ To  some  extent,  that one is true.  In particular, my first few
 efforts at trying to improve efficiency introduced  complexity at
 an alarming rate.  But since then I've been tinkering around with
 some simple optimizations and I've found some that result in very
-respectable code quality, WITHOUT adding a lot of complexity.
+respectable code quality, _without_ adding a lot of complexity.
 
 Finally, I thought that  perhaps  the  saving  grace was the "toy
 compiler" nature of the study.   I  have made no pretense that we
@@ -264,12 +253,12 @@ past:
 
   *  Batch Processing
                               
-     In the early days, batch  processing was the only choice ...
+     In the early days, batch  processing was the only choice…
      there was no interactive computing.   Even  today, compilers
      run in essentially batch mode.
 
      In a mainframe compiler as  well  as  many  micro compilers,
-     considerable effort is expended on error recovery ... it can
+     considerable effort is expended on error recovery… it can
      consume as much as 30-40%  of  the  compiler  and completely
      drive the design.  The idea is to avoid halting on the first
      error, but rather to keep going at all costs,  so  that  you
@@ -294,10 +283,9 @@ past:
      the error, then it makes a  lot  of sense to stop there, and
      just restart the compilation after the error is fixed.
 
-
   *  Large Programs
 
-     Early compilers were designed to handle  large  programs ...
+     Early compilers were designed to handle  large  programs…
      essentially infinite ones.    In those days there was little
      choice;  the  idea  of  subroutine  libraries  and  separate
      compilation  were  still  in  the  future.      Again,  this
@@ -311,27 +299,26 @@ past:
      tables and other data structures would fit into RAM.
 
      I haven't stated this one yet, because there  hasn't  been a
-     need  ... we've always just read and  written  the  data  as
+     need… we've always just read and  written  the  data  as
      streams, anyway.  But  for  the  record,  my plan has always
      been that, in  a  production compiler, the source and object
      data should all coexist  in  RAM with the compiler, a la the
      early Turbo Pascals.  That's why I've been  careful  to keep
-     routines like GetChar  and  Emit  as  separate  routines, in
+     routines like `GetChar`  and  `Emit`  as  separate  routines, in
      spite of their small size.   It  will be easy to change them
      to read to and write from memory.
-
 
   *  Emphasis on Efficiency
 
      John  Backus has stated that, when  he  and  his  colleagues
-     developed the original FORTRAN compiler, they KNEW that they
+     developed the original FORTRAN compiler, they _knew_ that they
      had to make it produce tight code.  In those days, there was
      a strong sentiment against HOLs  and  in  favor  of assembly
      language, and  efficiency was the reason.  If FORTRAN didn't
      produce very good  code  by  assembly  standards,  the users
      would simply refuse to use it.  For the record, that FORTRAN
      compiler turned out to  be  one  of  the most efficient ever
-     built, in terms of code quality.  But it WAS complex!
+     built, in terms of code quality.  But it _was_ complex!
 
      Today,  we have CPU power and RAM size  to  spare,  so  code
      efficiency is not  so  much  of  an  issue.    By studiously
@@ -341,7 +328,6 @@ past:
      structure, without having to add a lot of complexity.  So in
      this  case we get to have our cake and eat it too:  we  will
      end up with reasonable code quality, anyway.
-
 
   *  Limited Instruction Sets
 
@@ -372,11 +358,10 @@ past:
      on the stack, and  we  have used it even more than necessary
      to ease expression parsing.
 
-
   *  Desire for Generality
 
      Much of the content of the typical compiler text is taken up
-     with issues we haven't addressed here at all ... things like
+     with issues we haven't addressed here at all… things like
      automated  translation  of  grammars,  or generation of LALR
      parse tables.  This is not simply because  the  authors want
      to impress you.  There are good, practical  reasons  why the
@@ -415,14 +400,13 @@ past:
      simple without having to resort to automatic  translation of
      the grammar.
 
-
 We have taken  a  vastly  different  approach in this series.  We
 started with a clean sheet  of  paper,  and  developed techniques
 that work in the context that  we  are in; that is, a single-user
 PC  with  rather  ample CPU power and RAM space.  We have limited
 ourselves to reasonable grammars that  are easy to parse, we have
 used the instruction set of the CPU to advantage, and we have not
-concerned ourselves with efficiency.  THAT's why it's been easy.
+concerned ourselves with efficiency.  _That's_ why it's been easy.
 
 Does this mean that we are forever doomed  to  be  able  to build
 only toy compilers?   No, I don't think so.  As I've said, we can
@@ -443,7 +427,7 @@ up  with  were  artificially warped to make them work under those
 conditions, and weren't optimum  structures  for  the  problem at
 hand.
 
-## CONCLUSION
+## Conclusion
 
 Anyway, that's my arm-waving  guess  as to how we've been able to
 keep things simple.  We started with something simple and  let it
@@ -454,7 +438,7 @@ We're going to  press on with this.  I've given you a list of the
 areas  we'll  be  covering in future installments.    With  those
 installments, you  should  be  able  to  build  complete, working
 compilers for just about any occasion, and build them simply.  If
-you REALLY want to build production-quality compilers,  you'll be
+you _really_ want to build production-quality compilers,  you'll be
 able to do that, too.
 
 For those of you who are chafing at the bit for more parser code,
@@ -469,12 +453,3 @@ subject of our next  two  installments.  Then we'll press on into
 the new subjects I listed at the beginning of this installment.
 
 See you then.
-
-    *****************************************************************
-    *                                                               *
-    *                        COPYRIGHT NOTICE                       *
-    *                                                               *
-    *   Copyright (C) 1989 Jack W. Crenshaw. All rights reserved.   *
-    *                                                               *
-    *****************************************************************
-    
