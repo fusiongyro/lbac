@@ -21,4 +21,5 @@
   <xi:include href="3-more-expressions.xml"/>
   <xi:include href="4-interpreters.xml"/>
   <xi:include href="5-control-constructs.xml"/>
+  <xi:include href="6-boolean-exprs.xml"/>
 </book>
