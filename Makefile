@@ -1,6 +1,6 @@
-all: $(patsubst %.txt,%.html,$(wildcard *.txt)) book.pdf book.html
+all: $(patsubst %.md,%.html,$(wildcard *.md)) book.pdf book.html
 
-%.html: %.txt header.html footer.html rebuild.sh
+%.html: %.md header.html footer.html rebuild.sh
 	./rebuild.sh $< > $@
 
 book.html: $(wildcard *.xml)
