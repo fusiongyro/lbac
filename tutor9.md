@@ -32,7 +32,7 @@ parsing.
 You mustn't get  the  idea, though, that the incremental approach
 that  we've  been  using  in  all these tutorials  is  inherently
 bottom-up.  In  this  installment  I'd  like to show you that the
-approach can work just as well when applied from the top down ...
+approach can work just as well when applied from the top down…
 maybe better.  We'll consider languages such as C and Pascal, and
 see how complete compilers can be built starting from the top.
 
@@ -428,8 +428,8 @@ straightforward to continue the process we've begun.
 
 You  might  have  a go at fleshing a few of these constructs out,
 just  to get a feel for it.  I don't expect you  to  be  able  to
-complete a Pascal compiler  here  ...  there  are too many things
-such  as  procedures  and types that we haven't addressed yet ...
+complete a Pascal compiler  here …  there  are too many things
+such  as  procedures  and types that we haven't addressed yet…
 but  it  might  be helpful to try some of the more familiar ones.
 It will do  you  good  to  see executable programs coming out the
 other end.
@@ -512,7 +512,7 @@ about because in full C, functions can also have types.   So when
 the compiler sees a  keyword  like  "`int`,"  it still doesn't know
 whether to expect a  data  declaration  or a function definition.
 Things get more  complicated  since  the  next token may not be a
-name  ... it may start with an '`*`' or '`(`', or combinations of the
+name … it may start with an '`*`' or '`(`', or combinations of the
 two.
 
 More specifically, the BNF for full C begins with:
@@ -591,7 +591,7 @@ and change `GetClass` to do the following:
     
 Here, I've used three  single  characters  to represent the three
 storage classes "auto," "extern,"  and  "static."   These are not
-the only three possible classes ... there are also "register" and
+the only three possible classes… there are also "register" and
 "typedef," but this should  give  you the picture.  Note that the
 default class is "auto."
 
