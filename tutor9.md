@@ -2,17 +2,9 @@
 ## By Jack W. Crenshaw, Ph.D.
 ## 16 April 1989
 
-# Part IX: A TOP VIEW
-
-    *****************************************************************
-    *                                                               *
-    *                        COPYRIGHT NOTICE                       *
-    *                                                               *
-    *   Copyright (C) 1989 Jack W. Crenshaw. All rights reserved.   *
-    *                                                               *
-    *****************************************************************
+# A Top View
     
-## INTRODUCTION
+## Introduction
 
 In  the  previous  installments,  we  have  learned  many of  the
 techniques required to  build  a full-blown compiler.  We've done
@@ -22,7 +14,7 @@ still haven't  addressed procedure or function calls, but even so
 we  could  conceivably construct a  mini-language  without  them.
 I've  always  thought  it would be fun to see just  how  small  a
 language  one  could  build  that  would still be useful.   We're
-ALMOST in a position to do that now.  The  problem  is: though we
+_almost_ in a position to do that now.  The  problem  is: though we
 know  how  to  parse and translate the constructs, we still don't
 know quite how to put them all together into a language.
 
@@ -63,7 +55,7 @@ that you can see how it goes.
 Let's get started.
 
 
-## THE TOP LEVEL
+## The Top Level
 
 One of the biggest  mistakes  people make in a top-down design is
 failing  to start at the true top.  They think they know what the
@@ -74,11 +66,9 @@ Whenever  I  start a new design, I always like to do  it  at  the
 absolute beginning.   In  program design language (PDL), this top
 level looks something like:
 
-
      begin
         solve the problem
      end
-
 
 OK, I grant  you that this doesn't give much of a hint as to what
 the next level is, but I  like  to  write it down anyway, just to
@@ -91,18 +81,14 @@ that depends quite a bit on the language to be translated.  Let's
 take a look at Pascal.
 
 
-## THE STRUCTURE OF PASCAL
+## The Structure of Pascal
 
 Most  texts  for  Pascal  include  a   BNF   or  "railroad-track"
 definition of the language.  Here are the first few lines of one:
 
-
      <program> ::= <program-header> <block> '.'
-
      <program-header> ::= PROGRAM <ident>
-
      <block> ::= <declarations> <statements>
-
 
 We can write recognizers  to  deal  with  each of these elements,
 just as we've done before.  For each one, we'll use  our familiar
@@ -116,7 +102,6 @@ to stand for 'PROGRAM.'
 
 To a fresh copy of the cradle, add the following code, and insert
 a call to it from the main program:
-
 
     {--------------------------------------------------------------}
     { Parse and Translate A Program }
@@ -132,8 +117,7 @@ a call to it from the main program:
     end;
     {--------------------------------------------------------------}
     
-
-The procedures  Prolog and Epilog perform whatever is required to
+The procedures  `Prolog` and `Epilog` perform whatever is required to
 let the program interface with the operating system,  so  that it
 can execute as a program.  Needless to  say,  this  part  will be
 _very_ OS-dependent.  Remember, I've been emitting code for a 68000
@@ -142,8 +126,7 @@ you are using PC's  and  would rather see something else, but I'm
 in this thing too deep to change now!
 
 Anyhow, SK*DOS is a  particularly  easy OS to interface to.  Here
-is the code for Prolog and Epilog:
-
+is the code for `Prolog` and `Epilog`:
 
     {--------------------------------------------------------------}
     { Write the Prolog }
@@ -169,7 +152,6 @@ point, there is only one legal input:
 
     px.   (where x is any single letter, the program name)
 
-
 Well,  as  usual  our first effort is rather unimpressive, but by
 now  I'm sure you know that things  will  get  more  interesting.
 There is one important thing to  note:   _the output is a working,
@@ -183,15 +165,13 @@ fleshing out the language constructs.  It's all  very  similar to
 what we've been doing all along, except that we're approaching it
 from the other end.
 
-
-## FLESHING IT OUT
+## Fleshing It Out
 
 To flesh out  the  compiler,  we  only have to deal with language
 features  one by one.  I like to start with a stub procedure that
 does  nothing, then add detail in  incremental  fashion.    Let's
 begin  by  processing  a block, in accordance with its PDL above.
 We can do this in two stages.  First, add the null procedure:
-
 
     {--------------------------------------------------------------}
     { Parse and Translate a Pascal Block }
@@ -201,9 +181,7 @@ We can do this in two stages.  First, add the null procedure:
     end;
     {--------------------------------------------------------------}
     
-
-and modify Prog to read:
-
+and modify `Prog` to read:
 
     {--------------------------------------------------------------}
     { Parse and Translate A Program }
@@ -220,12 +198,10 @@ and modify Prog to read:
     end;
     {--------------------------------------------------------------}
     
-
 That certainly  shouldn't change the behavior of the program, and
 it doesn't.  But now the  definition  of Prog is complete, and we
-can proceed to flesh out DoBlock.  That's done right from its BNF
+can proceed to flesh out `DoBlock`.  That's done right from its BNF
 definition:
-
 
     {--------------------------------------------------------------}
     { Parse and Translate a Pascal Block }
@@ -239,7 +215,7 @@ definition:
     {--------------------------------------------------------------}
     
 
-The  procedure  PostLabel  was  defined  in  the  installment  on
+The  procedure  `PostLabel`  was  defined  in  the  installment  on
 branches.  Copy it into your cradle.
 
 I probably need to  explain  the  reason  for inserting the label
@@ -249,17 +225,16 @@ be  anywhere in the program.  All you have to do is to give  that
 point a name.  The call  to  PostLabel puts that name just before
 the first executable statement  in  the  main  program.  How does
 SK*DOS know which of the many labels is the entry point, you ask?
-It's the one that matches the END statement  at  the  end  of the
+It's the one that matches the `END` statement  at  the  end  of the
 program.
 
-OK,  now  we  need  stubs  for  the  procedures Declarations  and
-Statements.  Make them null procedures as we did before.
+OK,  now  we  need  stubs  for  the  procedures `Declarations`  and
+`Statements`.  Make them null procedures as we did before.
 
 Does the program  still run the same?  Then we can move on to the
 next stage.
 
-
-DECLARATIONS
+## Declarations
 
 The BNF for Pascal declarations is:
 
@@ -271,14 +246,12 @@ The BNF for Pascal declarations is:
                           <procedure>     |
                           <function>         )*
                               
-
 (Note  that  I'm  using the more liberal definition used by Turbo
 Pascal.  In the standard Pascal definition, each  of  these parts
 must be in a specific order relative to the rest.)
 
 As  usual,  let's  let a single character represent each of these
 declaration types.  The new form of Declarations is:
-
 
     {--------------------------------------------------------------}
     { Parse and Translate the Declaration Part }
@@ -358,7 +331,6 @@ Insert the following procedures:
     end;
     {--------------------------------------------------------------}
     
-
 Now try out the  compiler  with a few representative inputs.  You
 can  mix  the  declarations any way you like, as long as the last
 character  in  the  program is'.' to  indicate  the  end  of  the
@@ -369,17 +341,14 @@ than those standing for the keywords.
 We can flesh out the statement  part  in  a similar way.  The BNF
 for it is:
 
-
      <statements> ::= <compound statement>
 
      <compound statement> ::= BEGIN <statement>
                                    (';' <statement>) END
 
-
-Note that statements can  begin  with  any identifier except END.
-So the first stub form of procedure Statements is:
+Note that statements can  begin  with  any identifier except `END`.
+So the first stub form of procedure `Statements` is:
                               
-
     {--------------------------------------------------------------}
     { Parse and Translate the Statement Part }
     
@@ -394,9 +363,9 @@ So the first stub form of procedure Statements is:
     
 
 At  this  point  the  compiler   will   accept   any   number  of
-declarations, followed by the  BEGIN  block  of the main program.
+declarations, followed by the  `BEGIN`  block  of the main program.
 This  block  itself  can contain any characters at all (except an
-END), but it must be present.
+`END`), but it must be present.
 
 The simplest form of input is now
 
@@ -423,8 +392,7 @@ input to the right places, so  they  are  doing their job.  If we
 were to pursue this a bit longer, code would start to appear.
 
 The  next  step  in our expansion should  probably  be  procedure
-Statements.  The Pascal definition is:
-
+`Statements`.  The Pascal definition is:
 
     <statement> ::= <simple statement> | <structured statement>
 
@@ -472,8 +440,7 @@ build a complete Pascal  compiler  just yet, so I'm going to stop
 the expansion of Pascal here.    Let's  take  a  look  at  a very
 different language.
 
-
-## THE STRUCTURE OF C
+## The Structure of C
 
 The C language is quite another matter, as you'll see.   Texts on
 C  rarely  include  a BNF definition of  the  language.  Probably
@@ -511,17 +478,14 @@ token is either "int," "char," or the name  of  a  function.   In
 Small  C, the preprocessor commands are  also  processed  by  the
 compiler proper, so the syntax becomes:
 
-
      <global declaration> ::= '#' <preprocessor command>  |
                               'int' <data list>           |
                               'char' <data list>          |
                               <ident> <function body>     |
 
-
 Although we're really more interested in full C  here,  I'll show
 you the  code corresponding to this top-level structure for Small
 C.
-
 
     {--------------------------------------------------------------}
     { Parse and Translate A Program }
@@ -539,20 +503,19 @@ C.
     end;
     {--------------------------------------------------------------}
     
-Note that I've had to use a ^Z to indicate the end of the source.
-C has no keyword such as END or the '.' to otherwise indicate the
+Note that I've had to use a `^Z` to indicate the end of the source.
+C has no keyword such as `END` or the '.' to otherwise indicate the
 end.
                              
 With full C,  things  aren't  even  this easy.  The problem comes
 about because in full C, functions can also have types.   So when
-the compiler sees a  keyword  like  "int,"  it still doesn't know
+the compiler sees a  keyword  like  "`int`,"  it still doesn't know
 whether to expect a  data  declaration  or a function definition.
 Things get more  complicated  since  the  next token may not be a
-name  ... it may start with an '*' or '(', or combinations of the
+name  ... it may start with an '`*`' or '`(`', or combinations of the
 two.
 
 More specifically, the BNF for full C begins with:
-
 
      <program> ::= ( <top-level decl> )*
 
@@ -562,7 +525,6 @@ More specifically, the BNF for full C begins with:
 
      <function def> ::= [<class>] [<type>] <function decl>
 
-
 You  can  now  see the problem:   The  first  two  parts  of  the
 declarations for data and functions can be the same.   Because of
 the  ambiguity  in  the grammar as  written  above,  it's  not  a
@@ -570,13 +532,11 @@ suitable  grammar  for  a  recursive-descent  parser.     Can  we
 transform it into one that is suitable?  Yes, with a little work.
 Suppose we write it this way:
 
-
      <top-level decl> ::= [<class>] <decl>
 
      <decl> ::= <type> <typed decl> | <function decl>
 
      <typed decl> ::= <data list> | <function decl>
-
 
 We  can  build  a  parsing  routine  for  the   class   and  type
 definitions, and have them store away their findings  and  go on,
@@ -584,7 +544,6 @@ without their ever having to "know" whether a function or  a data
 declaration is being processed.
 
 To begin, key in the following version of the main program:
-
 
     {--------------------------------------------------------------}
     { Main Program }
@@ -602,23 +561,20 @@ To begin, key in the following version of the main program:
     
 
 For the first round, just make the three procedures stubs that do
-nothing _but_ call GetChar.
+nothing _but_ call `GetChar`.
 
-Does this program work?  Well, it would be hard put NOT to, since
+Does this program work?  Well, it would be hard put _not_ to, since
 we're not really asking it to do anything.  It's been said that a
 C compiler will accept virtually any input without choking.  It's
-certainly true of THIS  compiler,  since in effect all it does is
-to eat input characters until it finds a ^Z.
+certainly true of _this_  compiler,  since in effect all it does is
+to eat input characters until it finds a `^Z`.
 
-Next, let's make  GetClass  do something worthwhile.  Declare the
+Next, let's make  `GetClass`  do something worthwhile.  Declare the
 global variable
-
 
      var Class: char;
 
-
-and change GetClass to do the following:
-
+and change `GetClass` to do the following:
 
     {--------------------------------------------------------------}
     {  Get a Storage Class Specifier }
@@ -633,7 +589,6 @@ and change GetClass to do the following:
     end;
     {--------------------------------------------------------------}
     
-
 Here, I've used three  single  characters  to represent the three
 storage classes "auto," "extern,"  and  "static."   These are not
 the only three possible classes ... there are also "register" and
@@ -642,7 +597,6 @@ default class is "auto."
 
 We  can  do  a  similar  thing  for  types.   Enter the following
 procedure next:
-
 
     {--------------------------------------------------------------}
     {  Get a Type Specifier }
@@ -663,7 +617,7 @@ procedure next:
     end;
     {--------------------------------------------------------------}
     
-Note that you must add two more global variables, Sign and Typ.
+Note that you must add two more global variables, `Sign` and `Typ`.
 
 With these two procedures in place, the compiler will process the
 class and type definitions and store away their findings.  We can
@@ -678,7 +632,7 @@ a left paren, we have a function declaration.  If not, we have at
 least one data item,  and  possibly a list, each element of which
 can have an initializer.
 
-Insert the following version of TopDecl:
+Insert the following version of `TopDecl`:
 
     {--------------------------------------------------------------}
     { Process a Top-Level Declaration }
@@ -694,12 +648,10 @@ Insert the following version of TopDecl:
     end;
     {--------------------------------------------------------------}
     
-
 (Note that, since we have already read the name, we must  pass it
 along to the appropriate routine.)
 
-Finally, add the two procedures DoFunc and DoData:
-
+Finally, add the two procedures `DoFunc` and `DoData`:
 
     {--------------------------------------------------------------}
     { Process a Function Definition }
@@ -729,7 +681,6 @@ Finally, add the two procedures DoFunc and DoData:
        Match(';');
     end;
     {--------------------------------------------------------------}
-    
 
 Since  we're  still  a long way from producing executable code, I
 decided to just have these two routines tell us what they found.
@@ -737,7 +688,7 @@ decided to just have these two routines tell us what they found.
 OK, give this program a try.    For data declarations, it's OK to
 give a list separated by commas.  We  can't  process initializers
 as yet.  We also can't process argument lists for  the functions,
-but the "(){}" characters should be there.
+but the "`(){}`" characters should be there.
 
 We're still a _very_ long way from having a C compiler,  but what
 we have is starting to process the right kinds of inputs,  and is
@@ -763,7 +714,7 @@ terminated only by the end of file.
 We  could  pursue  both  of  these structures much  farther,  but
 remember that our purpose here is  not  to  build a Pascal or a C
 compiler, but rather to study compilers in general.  For those of
-you  who DO want to deal with Pascal or C, I hope I've given  you
+you  who _do_ want to deal with Pascal or C, I hope I've given  you
 enough of a start so that you can  take  it  from  here (although
 you'll soon need some of the stuff we still haven't  covered yet,
 such as typing and procedure calls).    For the rest of you, stay
@@ -772,12 +723,3 @@ through the development of a complete compiler for TINY, a subset
 of KISS.
 
 See you then.
-
-
-    *****************************************************************
-    *                                                               *
-    *                        COPYRIGHT NOTICE                       *
-    *                                                               *
-    *   Copyright (C) 1989 Jack W. Crenshaw. All rights reserved.   *
-    *                                                               *
-    *****************************************************************
