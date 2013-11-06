@@ -587,7 +587,7 @@ end;
     <productionset>
       <production xml:id="factor-1">
 	<lhs>factor</lhs>
-	<rhs>( <nonterminal def="#undef">expression</nonterminal> )</rhs>
+	<rhs>'(' <nonterminal def="#undef">expression</nonterminal> ')'</rhs>
       </production>
     </productionset>
     <para>
