@@ -88,7 +88,7 @@
       Again, there is no ambiguity: if the lookahead character is a
       letter, we have a variable; if a digit, we have a number. Back
       when we translated the number, we just issued code to load the
-      number, as immediate data, into <literal>D0</literal>. Now we do
+      number, as immediate data, into <varname>D0</varname>. Now we do
       the same, only we load a variable.
     </para>
     <para>
@@ -101,7 +101,7 @@
     </para>
     <programlisting>MOVE X(PC),D0</programlisting>
     <para>
-      where <literal>X</literal> is, of course, the variable name.
+      where <varname>X</varname> is, of course, the variable name.
       Armed with that, let’s modify the current version of
       <function>Factor</function> to read:
     </para>
